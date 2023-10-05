@@ -1,3 +1,4 @@
 class DiscussionReplySerializer < ActiveModel::Serializer
-  attributes :id,:user_id,:content,:upvotes
+  attributes :id,:content,:upvotes
+  belongs_to :user
 end
