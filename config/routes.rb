@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   resources :messages
   resources :discussion_replies
   resources :discussions
+  resources :users
 end
