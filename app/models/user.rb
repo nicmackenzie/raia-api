@@ -4,7 +4,7 @@ class User < ApplicationRecord
     has_many :interests
     # add other relationships here as needed...
     
-    has_secure_password
+    
    
     # Enums
     enum role: { citizen: 0, leader: 1, admin: 2 }
