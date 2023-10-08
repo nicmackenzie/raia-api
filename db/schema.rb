@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_05_180015) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_07_202003) do
   create_table "discussion_replies", force: :cascade do |t|
     t.integer "discussion_id", null: false
     t.integer "user_id", null: false
@@ -43,10 +43,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_180015) do
   create_table "reviews", force: :cascade do |t|
     t.text "content"
     t.decimal "rating"
-    t.integer "user_id", null: false
+    t.integer "reviewer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_reviews_on_user_id"
+    t.integer "leader_id"
+    t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -59,5 +60,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_180015) do
   add_foreign_key "discussion_replies", "discussions"
   add_foreign_key "discussion_replies", "users"
   add_foreign_key "discussions", "users"
-  add_foreign_key "reviews", "users"
+  add_foreign_key "reviews", "users", column: "reviewer_id"
 end
