@@ -1,0 +1,41 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email: MyString
+  full_name: MyString
+  national_id: MyString
+  gender: MyString
+  date_of_birth: 2023-10-06
+  occupation: MyString
+  interests: MyString
+  contact: MyString
+  location: MyString
+  county_id: 1
+  ward: MyString
+  role: 1
+  elected_position: MyString
+  profile_image: MyString
+  password_digest: MyString
+  verified: false
+  active: false
+  is_deleted: false
+
+two:
+  email: MyString
+  full_name: MyString
+  national_id: MyString
+  gender: MyString
+  date_of_birth: 2023-10-06
+  occupation: MyString
+  interests: MyString
+  contact: MyString
+  location: MyString
+  county_id: 1
+  ward: MyString
+  role: 1
+  elected_position: MyString
+  profile_image: MyString
+  password_digest: MyString
+  verified: false
+  active: false
+  is_deleted: false
