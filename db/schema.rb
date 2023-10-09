@@ -85,6 +85,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_08_060605) do
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
   add_foreign_key "petitions", "users"
-  add_foreign_key "tickets", "assigned_leaders"
   add_foreign_key "tickets", "users"
+  add_foreign_key "tickets", "users", column: "assigned_leader_id"
 end
