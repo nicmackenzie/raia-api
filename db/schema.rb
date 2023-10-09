@@ -34,5 +34,58 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_08_060605) do
     t.datetime "updated_at", null: false
     t.string "user_uid"
   end
+  
+   create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.date "date"
+    t.integer "county_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["county_id"], name: "index_events_on_county_id"
+    t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "news_and_updates", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.integer "county_id", null: false
+    t.integer "user_id", null: false
+    t.date "published_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["county_id"], name: "index_news_and_updates_on_county_id"
+    t.index ["user_id"], name: "index_news_and_updates_on_user_id"
+  end
+
+  create_table "petitions", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_petitions_on_user_id"
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "status"
+    t.integer "user_id", null: false
+    t.integer "assigned_leader_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assigned_leader_id"], name: "index_tickets_on_assigned_leader_id"
+    t.index ["user_id"], name: "index_tickets_on_user_id"
+  end
+  
+  add_foreign_key "events", "counties"
+  add_foreign_key "events", "users"
+  add_foreign_key "news_and_updates", "counties"
+  add_foreign_key "news_and_updates", "users"
+  add_foreign_key "petitions", "users"
+  add_foreign_key "tickets", "assigned_leaders"
+  add_foreign_key "tickets", "users"
 
 end
