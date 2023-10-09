@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  resources :users
+  resource :session, only: [:create, :destroy]
+
 
   # Routes for Petitions
   resources :petitions
@@ -9,4 +11,7 @@ Rails.application.routes.draw do
   resources :events
   # Routes for Tickets
   resources :tickets
+
+  # ... any other routes ...
+
 end

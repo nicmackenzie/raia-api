@@ -15,4 +15,7 @@ class ApplicationController < ActionController::API
     else
         render json: { error: 'Token missing' }, status: :unauthorized
     end
+    def current_user
+      @current_user
+  end
 end
