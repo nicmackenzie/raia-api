@@ -11,31 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_10_08_060605) do
-  create_table "users", force: :cascade do |t|
-    t.string "email"
-    t.string "full_name"
-    t.string "national_id"
-    t.string "gender"
-    t.date "date_of_birth"
-    t.string "occupation"
-    t.string "interests"
-    t.string "contact"
-    t.string "location"
-    t.integer "county_id"
-    t.string "ward"
-    t.integer "role"
-    t.string "elected_position"
-    t.string "profile_image"
-    t.string "password_digest"
-    t.boolean "verified"
-    t.boolean "active"
-    t.boolean "is_deleted"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "user_uid"
-  end
-  
-   create_table "events", force: :cascade do |t|
+  create_table "events", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.date "date"
@@ -79,13 +55,36 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_08_060605) do
     t.index ["assigned_leader_id"], name: "index_tickets_on_assigned_leader_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
-  
+
+  create_table "users", force: :cascade do |t|
+    t.string "email"
+    t.string "full_name"
+    t.string "national_id"
+    t.string "gender"
+    t.date "date_of_birth"
+    t.string "occupation"
+    t.string "interests"
+    t.string "contact"
+    t.string "location"
+    t.integer "county_id"
+    t.string "ward"
+    t.integer "role"
+    t.string "elected_position"
+    t.string "profile_image"
+    t.string "password_digest"
+    t.boolean "verified"
+    t.boolean "active"
+    t.boolean "is_deleted"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_uid"
+  end
+
   add_foreign_key "events", "counties"
   add_foreign_key "events", "users"
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
   add_foreign_key "petitions", "users"
-  add_foreign_key "tickets", "assigned_leaders"
   add_foreign_key "tickets", "users"
-
+  add_foreign_key "tickets", "users", column: "assigned_leader_id"
 end
