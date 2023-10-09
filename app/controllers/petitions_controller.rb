@@ -1,40 +1,39 @@
 class PetitionsController < ApplicationController
     before_action :set_petition, only: [:show, :edit, :update, :destroy]
+    rescue_from ActiveRecord::RecordNotFound, with: :not_found
+    # skip_before_action :authenticate_user
   
     def index
-      @petitions = Petition.all
+      petitions = Petition.all
+      render json: petitions
     end
   
     def show
-    end
-  
-    def new
-      @petition = Petition.new
+      render json: @petition
     end
   
     def create
-      @petition = Petition.new(petition_params)
-      if @petition.save
-        redirect_to @petition, notice: 'Petition was successfully created.'
+      @petition = Petition.create(petition_params)
+    
+      if @petition.valid?
+        render json: @petition, status: :created
       else
-        render :new
+        render json: { error: @petition.errors.full_messages.join(', ') }, status: :unprocessable_entity
       end
-    end
-  
-    def edit
     end
   
     def update
       if @petition.update(petition_params)
-        redirect_to @petition, notice: 'Petition was successfully updated.'
+        render json: @petition
       else
-        render :edit
+        render json: { errors: @petition.errors.full_messages }, status: :unprocessable_entity
       end
-    end
+   end
   
     def destroy
       @petition.destroy
-      redirect_to petitions_url, notice: 'Petition was successfully destroyed.'
+      head :no_content
+      render json: {}
     end
   
     private

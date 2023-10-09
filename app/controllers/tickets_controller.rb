@@ -1,40 +1,38 @@
 class TicketsController < ApplicationController
     before_action :set_ticket, only: [:show, :edit, :update, :destroy]
+    rescue_from ActiveRecord::RecordNotFound, with: :not_found
   
     def index
-      @tickets = Ticket.all
+      tickets = Ticket.all
+      render json: tickets
     end
   
     def show
-    end
-  
-    def new
-      @ticket = Ticket.new
+      render json: @ticket
     end
   
     def create
-      @ticket = Ticket.new(ticket_params)
-      if @ticket.save
-        redirect_to @ticket, notice: 'Ticket was successfully created.'
+      @ticket = Ticket.create(ticket_params)
+    
+      if @ticket.valid?
+        render json: @ticket, status: :created
       else
-        render :new
+        render json: { error: @ticket.errors.full_messages.join(', ') }, status: :unprocessable_entity
       end
-    end
-  
-    def edit
     end
   
     def update
       if @ticket.update(ticket_params)
-        redirect_to @ticket, notice: 'Ticket was successfully updated.'
+        render json:@ticket
       else
-        render :edit
+        render json: { errors: @ticket.errors.full_messages }, status: :unprocessable_entity
       end
     end
   
     def destroy
       @ticket.destroy
-      redirect_to tickets_url, notice: 'Ticket was successfully destroyed.'
+      head :no_content
+      render json: {}
     end
   
     private

@@ -1,40 +1,38 @@
 class NewsAndUpdatesController < ApplicationController
     before_action :set_news_and_update, only: [:show, :edit, :update, :destroy]
+    rescue_from ActiveRecord::RecordNotFound, with: :not_found
   
     def index
-      @news_and_updates = NewsAndUpdates.all
+      news_and_updates = NewsAndUpdates.all
+      render json: news_and_updates
     end
   
     def show
-    end
-  
-    def new
-      @news_and_update = NewsAndUpdates.new
+      render json: @news_and_update
     end
   
     def create
-      @news_and_update = NewsAndUpdates.new(news_and_update_params)
-      if @news_and_update.save
-        redirect_to @news_and_update, notice: 'News and Update was successfully created.'
+      @news_and_update = NewsAndUpdates.create(news_and_update_params)
+    
+      if @news_and_update.valid?
+        render json: @news_and_update, status: :created
       else
-        render :new
+        render json: { error: @news_and_update.errors.full_messages.join(', ') }, status: :unprocessable_entity
       end
-    end
-  
-    def edit
     end
   
     def update
       if @news_and_update.update(news_and_update_params)
-        redirect_to @news_and_update, notice: 'News and Update was successfully updated.'
+        render json:@news_and_update
       else
-        render :edit
+        render json: { errors: @news_and_update.errors.full_messages }, status: :unprocessable_entity
       end
     end
   
     def destroy
       @news_and_update.destroy
-      redirect_to news_and_updates_url, notice: 'News and Update was successfully destroyed.'
+      head :no_content
+      render json: {}
     end
   
     private
