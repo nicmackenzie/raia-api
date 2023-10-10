@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   # Routes for the Interest resource
   resources :interests
+  resources :counties
+
 
   # ... any other routes ...
 end
