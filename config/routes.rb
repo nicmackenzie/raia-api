@@ -8,5 +8,9 @@ Rails.application.routes.draw do
   # Session routes for login and logout
   resource :session, only: [:create, :destroy]
 
+  # Routes for the Interest resource
+  resources :interests
+
   # ... any other routes ...
 end
+
