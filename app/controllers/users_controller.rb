@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
     before_action :set_user, only: [:show, :edit, :update, :destroy]
     before_action :check_role, only: [:edit, :update, :destroy]
-  
+    before_action :check_admin, only: [:index]
+    
     def index
       @users = User.all
       render json: @users
@@ -42,6 +43,12 @@ class UsersController < ApplicationController
     def check_role
       unless current_user&.admin? || current_user == @user
         render json: { error: "You don't have the necessary permissions to perform this action." }, status: :forbidden
+      end
+    end
+
+    def check_admin
+      unless current_user&.admin?
+        render json: { error: "You don't have the necessary permissions to access this page." }, status: :forbidden
       end
     end
   
