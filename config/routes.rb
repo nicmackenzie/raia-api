@@ -6,6 +6,6 @@ Rails.application.routes.draw do
   resources :reviews, only: [:index]
   resources :messages
   resources :discussion_replies,only: [:index,:create]
-  resources :discussions,only: [:index,:create]
+  resources :discussions,only: [:index,:create,:destroy]
   resources :users
 end
