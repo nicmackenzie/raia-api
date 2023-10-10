@@ -1,12 +1,13 @@
 class DiscussionsController < ApplicationController
     rescue_from ActiveRecord::RecordInvalid,with: :render_record_invalid
+    rescue_from ActiveRecord::RecordNotFound,with: :render_not_found
     wrap_parameters format: []
     def index
         discussions = Discussion.where(is_deleted:false)
         render json: discussions
     end
     def create
-        discussion = Discussion.create(discussion_params)
+        discussion = Discussion.create(title:discussion_params[:title],content:discussion_params[:content],user_id:discussion_params[:user_id],is_deleted:false)
         render json: discussion, status: :created
     end
     def destroy
@@ -24,5 +25,8 @@ class DiscussionsController < ApplicationController
     end
     def find_discussion(id)
         discussion = Discussion.find(id)
+    end
+    def render_not_found
+        render json: {error:"Discussion not found"},status: :not_found
     end
 end
