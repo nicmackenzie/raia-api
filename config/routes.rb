@@ -12,7 +12,16 @@ Rails.application.routes.draw do
   resources :interests
   resources :counties
 
+  # Routes for Petitions
+  resources :petitions
+  # Routes for NewsAndUpdates
+  resources :news_and_updates
+  # Routes for Events
+  resources :events
+  # Routes for Tickets
+  resources :tickets
 
   # ... any other routes ...
+
 end
 
