@@ -18,6 +18,4 @@ Rails.application.routes.draw do
   # Routes for Tickets
   resources :tickets
 
-  # ... any other routes ...
-
 end
