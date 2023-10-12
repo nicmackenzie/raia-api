@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
-  resources :users
+  # Custom route for user registration
+  post '/signup', to: 'users#create'
+
+  resources :users, only: [:index, :show,:update,:destroy]
   resource :session, only: [:create, :destroy]
 
+  # Routes for the Interest resource
+  resources :interests
+  resources :counties
 
   # Routes for Petitions
   resources :petitions
@@ -11,7 +17,5 @@ Rails.application.routes.draw do
   resources :events
   # Routes for Tickets
   resources :tickets
-
-  # ... any other routes ...
 
 end

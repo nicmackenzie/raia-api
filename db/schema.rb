@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_08_060605) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_11_085027) do
+  create_table "counties", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -21,6 +27,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_08_060605) do
     t.datetime "updated_at", null: false
     t.index ["county_id"], name: "index_events_on_county_id"
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "interests", force: :cascade do |t|
+    t.string "name"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_interests_on_user_id"
   end
 
   create_table "news_and_updates", force: :cascade do |t|
@@ -73,8 +87,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_08_060605) do
     t.string "profile_image"
     t.string "password_digest"
     t.boolean "verified"
-    t.boolean "active"
-    t.boolean "is_deleted"
+    t.boolean "active", default: true
+    t.boolean "is_deleted", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "user_uid"
@@ -82,6 +96,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_08_060605) do
 
   add_foreign_key "events", "counties"
   add_foreign_key "events", "users"
+  add_foreign_key "interests", "users"
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
   add_foreign_key "petitions", "users"
