@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   # Custom route for user registration
   post '/signup', to: 'users#create'
+  post '/certificate-upload', to: 'leader_uploads#create'
+  get '/me', to:'sessions#me'
 
   resources :users, only: [:index, :show,:update,:destroy]
   resource :session, only: [:create, :destroy]
