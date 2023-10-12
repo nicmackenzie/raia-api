@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   # Routes for the Interest resource
   resources :interests
-  resources :counties
+  resources :counties,only:[:index]
 
   # Routes for Petitions
   resources :petitions
