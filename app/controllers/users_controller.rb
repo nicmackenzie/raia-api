@@ -2,7 +2,8 @@ class UsersController < ApplicationController
     before_action :set_user, only: [:show, :edit, :update, :destroy]
     before_action :check_role, only: [:edit, :update, :destroy]
     before_action :check_admin, only: [:index]
-    
+    skip_before_action :authenticate_user, only: [:create] # Add this line
+
     def index
       @users = User.all
       render json: @users
