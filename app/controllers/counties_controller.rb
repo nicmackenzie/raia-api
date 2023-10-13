@@ -3,7 +3,7 @@ class CountiesController < ApplicationController
   
     def index
       @counties = County.all
-      render json: @counties
+      render json: @counties,except: [:created_at,:updated_at]
     end
   
     def show
