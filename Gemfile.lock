@@ -46,9 +46,9 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    active_model_serializers (0.10.13)
-      actionpack (>= 4.1, < 7.1)
-      activemodel (>= 4.1, < 7.1)
+    active_model_serializers (0.10.14)
+      actionpack (>= 4.1)
+      activemodel (>= 4.1)
       case_transform (>= 0.2)
       jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (7.0.8)
@@ -71,6 +71,7 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    bcrypt (3.1.19)
     builder (3.2.4)
     case_transform (0.2)
       activesupport
@@ -117,9 +118,14 @@ GEM
     net-smtp (0.4.0)
       net-protocol
     nio4r (2.5.9)
+    nokogiri (1.15.4-x64-mingw32)
+      racc (~> 1.4)
+    nokogiri (1.15.4-x86_64-darwin)
+      racc (~> 1.4)
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
     pg (1.5.4)
+    pg (1.5.4-x64-mingw32)
     psych (5.1.0)
       stringio
     puma (5.6.7)
@@ -163,22 +169,27 @@ GEM
       psych (>= 4.0.0)
     reline (0.3.8)
       io-console (~> 0.5)
+    sqlite3 (1.6.6-x64-mingw32)
+    sqlite3 (1.6.6-x86_64-darwin)
     sqlite3 (1.6.6-x86_64-linux)
     stringio (3.0.8)
     thor (1.2.2)
     timeout (0.4.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2023.3)
+      tzinfo (>= 1.0.0)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     zeitwerk (2.6.12)
 
 PLATFORMS
+  x64-mingw32
+  x86_64-darwin-20
   x86_64-linux
 
 DEPENDENCIES
-  active_model_serializers
   debug
   dotenv-rails
   jwt
@@ -190,4 +201,4 @@ DEPENDENCIES
   tzinfo-data
 
 BUNDLED WITH
-   2.4.19
+   2.4.20

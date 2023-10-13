@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  content: MyText
+  county: one
+  user: one
+  published_date: 2023-10-06
+
+two:
+  title: MyString
+  content: MyText
+  county: two
+  user: two
+  published_date: 2023-10-06
