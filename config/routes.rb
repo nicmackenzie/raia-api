@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   # Custom route for user registration
   post '/signup', to: 'users#create'
+  post '/certificate-upload', to: 'leader_uploads#create'
+  get '/me', to:'sessions#me'
 
   # Defines the root path route ("/")
   # root "articles#index"
@@ -13,7 +15,7 @@ Rails.application.routes.draw do
 
   # Routes for the Interest resource
   resources :interests
-  resources :counties
+  resources :counties,only:[:index]
 
   # Routes for Petitions
   resources :petitions

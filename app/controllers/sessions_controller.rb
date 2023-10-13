@@ -14,6 +14,11 @@ class SessionsController < ApplicationController
     end
   end
 
+  # get currently logged user
+  def me
+    render json: @current_user,except: [:password_digest,:created_at,:updated_at]
+  end
+
   def destroy
     render json: { message: 'Logged out successfully' }, status: :ok
   end

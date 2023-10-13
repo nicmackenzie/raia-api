@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
-  # before_action :authenticate_user
+  before_action :authenticate_user
+  
 
   private
 
@@ -9,7 +10,8 @@ class ApplicationController < ActionController::API
     if token
       begin
         decoded_token = JWT.decode(token, ENV['JWT_SECRET'], true, algorithm: 'HS256')
-        user = User.find(decoded_token[0]['sub'])
+      
+        user = User.find_by(user_uid: decoded_token[0]['sub'])
         @current_user = user
       rescue JWT::ExpiredSignature
         render json: { error: 'Token has expired' }, status: :unauthorized

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_11_085027) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_12_091836) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -35,6 +35,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_11_085027) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_interests_on_user_id"
+  end
+
+  create_table "leader_uploads", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "upload_url"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["user_id"], name: "index_leader_uploads_on_user_id"
   end
 
   create_table "news_and_updates", force: :cascade do |t|
@@ -97,6 +104,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_11_085027) do
   add_foreign_key "events", "counties"
   add_foreign_key "events", "users"
   add_foreign_key "interests", "users"
+  add_foreign_key "leader_uploads", "users"
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
   add_foreign_key "petitions", "users"
