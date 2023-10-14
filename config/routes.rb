@@ -4,12 +4,12 @@ Rails.application.routes.draw do
   post '/certificate-upload', to: 'leader_uploads#create'
   get '/me', to:'sessions#me'
 
-  resources :users, only: [:index, :show,:update,:destroy]
+  resources :users, only: [:index]
   resource :session, only: [:create, :destroy]
 
   # Routes for the Interest resource
   resources :interests
-  resources :counties,only:[:index]
+  resources :counties
 
   # Routes for Petitions
   resources :petitions
