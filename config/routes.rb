@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # Custom route for user registration
+  post '/signup', to: 'users#create'
+  post '/certificate-upload', to: 'leader_uploads#create'
+  get '/me', to:'sessions#me'
 
   # Defines the root path route ("/")
   # root "articles#index"
@@ -7,5 +10,23 @@ Rails.application.routes.draw do
   resources :messages, only: [:show,:create,:destroy]
   resources :discussion_replies,only: [:index,:create]
   resources :discussions,only: [:index,:create,:destroy]
-  resources :users
+  resources :users, only: [:index]
+  resource :session, only: [:create, :destroy]
+
+  # Routes for the Interest resource
+  resources :interests
+  resources :counties
+
+  # Routes for Petitions
+  resources :petitions
+  # Routes for NewsAndUpdates
+  resources :news_and_updates
+  # Routes for Events
+  resources :events
+  # Routes for Tickets
+  resources :tickets
+
 end
+ 
+
+

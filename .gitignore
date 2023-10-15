@@ -6,6 +6,7 @@
 
 # Ignore bundler config.
 /.bundle
+/vendor
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
@@ -27,3 +28,4 @@
 /config/master.key
 .env
 ReadMe.txt
+.ruby-version
