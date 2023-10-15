@@ -5,6 +5,8 @@ class User < ApplicationRecord
     has_many :reviews
     has_many :messages_sent,class_name: 'Message', foreign_key: 'sender_id'
     has_many :messages_received,class_name: 'Message', foreign_key: 'receiver_id'
+    has_many :leaders_reviewed,class_name: 'Review',foreign_key: 'leader_id'
+    has_many :reviewers,clas_name: 'Review',foreign_key: 'reviewer_id'
     belongs_to :county, optional: true
     has_many :interests
     has_many :leader_uploads

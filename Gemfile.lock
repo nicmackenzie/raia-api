@@ -190,6 +190,8 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  active_model_serializers
+  bcrypt (~> 3.1.7)
   debug
   dotenv-rails
   jwt
