@@ -18,7 +18,7 @@ class User < ApplicationRecord
     # validates :national_id, presence: true, uniqueness: true, length: { is: 10 }, numericality: { only_integer: true }, on: :update
     # validates :gender, presence: true, inclusion: { in: %w(male female other), message: "%{value} is not a valid gender" }, on: :update
     validates :contact, presence: true,uniqueness: true, format: { with: /\A[+]?[\d\s\-()]*\z/, message: "must be a valid phone number" }
-  
+    validates_uniqueness_of :username, if: -> { username.present? }
     # ... rest of the model code ...
   end
   
