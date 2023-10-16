@@ -13,6 +13,19 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show,:update,:destroy]
   resource :session, only: [:create, :destroy]
 
+    # User routes
+    resources :users, only: [:index, :show, :update, :destroy] do
+      collection do
+        get 'top_influencers'
+        get 'find_by_username/:username', to: 'users#find_by_username', as: 'find_by_username'
+      end
+  
+      member do
+        post 'follow', to: 'users#follow'
+        delete 'unfollow', to: 'users#unfollow'
+      end
+    end
+    
   # Routes for the Interest resource
   resources :interests
   resources :counties,only:[:index]
