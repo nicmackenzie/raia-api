@@ -2,11 +2,7 @@ class User < ApplicationRecord
     # Relationships
     belongs_to :county, optional: true
     has_many :interests
-    has_many :leader_uploads
-    # add other relationships here as needed...
-    
-    
-   
+    has_many :leader_uploads     
     # Enums
     
     enum role: { citizen: 0, leader: 1, admin: 2 }
@@ -19,6 +15,5 @@ class User < ApplicationRecord
     # validates :gender, presence: true, inclusion: { in: %w(male female other), message: "%{value} is not a valid gender" }, on: :update
     validates :contact, presence: true,uniqueness: true, format: { with: /\A[+]?[\d\s\-()]*\z/, message: "must be a valid phone number" }
     validates_uniqueness_of :username, if: -> { username.present? }
-    # ... rest of the model code ...
   end
   

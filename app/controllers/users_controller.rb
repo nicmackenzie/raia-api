@@ -36,6 +36,31 @@ class UsersController < ApplicationController
       @user.destroy
       head :no_content
     end
+
+    def not_following
+      users_not_following = User.where.not(id: @current_user.id).where(role: 0).where(active: true,is_deleted: false).limit(5)
+      render json: users_not_following,only: ['id','full_name','profile_image','username']
+    end
+
+    def leaders
+      my_leaders = User.where(role: 1,county_id: @current_user.county_id)
+      render json: my_leaders,only: ['id','full_name','profile_image','elected_position','username']
+    end
+
+    def get_user_by_username
+      user = User.where(username: params[:username],active: true, is_deleted: false).first
+      if user
+        render json: user
+      else
+        render json: {error: "User not found"},status: :not_found
+      end
+    end
+
+    def check_role
+      unless @current_user&.admin? || @current_user == @user
+        render json: { error: "You don't have the necessary permissions to perform this action." }, status: :forbidden
+      end
+    end
   
     private
   
@@ -43,11 +68,7 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
   
-    def check_role
-      unless current_user&.admin? || current_user == @user
-        render json: { error: "You don't have the necessary permissions to perform this action." }, status: :forbidden
-      end
-    end
+    
 
     def check_admin
       unless current_user&.admin?

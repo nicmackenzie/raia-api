@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   post '/signup', to: 'users#create'
   post '/certificate-upload', to: 'leader_uploads#create'
   get '/me', to:'sessions#me'
+  get 'users/not-following', to: 'users#not_following'
+  get 'users/my-leaders', to: 'users#leaders'
+  get 'users/:username', to: 'users#get_user_by_username'
 
   resources :users, only: [:index, :show,:update,:destroy]
   resource :session, only: [:create, :destroy]
