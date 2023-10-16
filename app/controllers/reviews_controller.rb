@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
     wrap_parameters format: []
 rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+rescue_from ActiveRecord::RecordInvalid,with: :render_record_invalid
     def index
         render json: Review.all, status: :ok
     end
@@ -26,5 +27,8 @@ rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
     end
     def render_not_found
         render json: {error:"Review Not Found"},status: :not_found
+    end
+    def render_record_invalid(invalid)
+        render json: {errors:invalid.record.errors.full_messages}
     end
 end
