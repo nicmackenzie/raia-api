@@ -6,11 +6,11 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :reviews, only: [:index]
+  resources :reviews, only: [:index,:create,:show,:destroy]
   resources :messages, only: [:show,:create,:destroy]
   resources :discussion_replies,only: [:index,:create]
   resources :discussions,only: [:index,:create,:destroy]
-  resources :users, only: [:index]
+  resources :users, only: [:index, :show,:update,:destroy]
   resource :session, only: [:create, :destroy]
 
   # Routes for the Interest resource
@@ -25,8 +25,5 @@ Rails.application.routes.draw do
   resources :events
   # Routes for Tickets
   resources :tickets
-
 end
- 
-
-
+>>>>>>>>> Temporary merge branch 2
