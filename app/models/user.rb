@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+
   # Enums
   enum role: { citizen: 0, leader: 1, admin: 2 }
 
@@ -41,5 +42,6 @@ class User < ApplicationRecord
       self.username = "user_#{SecureRandom.hex(4)}"
       break unless User.exists?(username: username)
     end
+
   end
 end
