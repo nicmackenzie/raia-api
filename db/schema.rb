@@ -44,6 +44,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
     t.index ["user_id"], name: "index_leader_uploads_on_user_id"
   end
 
+  create_table "news_and_update_comments", force: :cascade do |t|
+    t.text "content"
+    t.integer "user_id", null: false
+    t.integer "news_and_update_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["news_and_update_id"], name: "index_news_and_update_comments_on_news_and_update_id"
+    t.index ["user_id"], name: "index_news_and_update_comments_on_user_id"
+  end
+
   create_table "news_and_updates", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -55,16 +65,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
     t.string "image"
     t.index ["county_id"], name: "index_news_and_updates_on_county_id"
     t.index ["user_id"], name: "index_news_and_updates_on_user_id"
-  end
-
-  create_table "news_and_updates_comments", force: :cascade do |t|
-    t.text "content"
-    t.integer "user_id", null: false
-    t.integer "news_and_update_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["news_and_update_id"], name: "index_news_and_updates_comments_on_news_and_update_id"
-    t.index ["user_id"], name: "index_news_and_updates_comments_on_user_id"
   end
 
   create_table "petitions", force: :cascade do |t|
@@ -116,10 +116,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
   add_foreign_key "events", "users"
   add_foreign_key "interests", "users"
   add_foreign_key "leader_uploads", "users"
+  add_foreign_key "news_and_update_comments", "news_and_updates"
+  add_foreign_key "news_and_update_comments", "users"
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
-  add_foreign_key "news_and_updates_comments", "news_and_updates"
-  add_foreign_key "news_and_updates_comments", "users"
   add_foreign_key "petitions", "users"
   add_foreign_key "tickets", "users"
   add_foreign_key "tickets", "users", column: "assigned_leader_id"
