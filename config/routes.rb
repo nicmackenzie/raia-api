@@ -7,6 +7,12 @@ Rails.application.routes.draw do
   get 'users/my-leaders', to: 'users#leaders'
   get 'users/:username', to: 'users#get_user_by_username'
 
+  # Defines the root path route ("/")
+  # root "articles#index"
+  resources :reviews, only: [:index,show,:create,:destroy]
+  resources :messages, only: [:show,:create,:destroy]
+  resources :discussion_replies,only: [:index,:create]
+  resources :discussions,only: [:index,:create,:destroy]
   resources :users, only: [:index, :show,:update,:destroy]
   resource :session, only: [:create, :destroy]
 
@@ -22,5 +28,5 @@ Rails.application.routes.draw do
   resources :events
   # Routes for Tickets
   resources :tickets
-
 end
+  

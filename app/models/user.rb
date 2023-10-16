@@ -1,5 +1,12 @@
 class User < ApplicationRecord
     # Relationships
+    has_many :discussion_replies
+    has_many :discussions
+    has_many :reviews
+    has_many :messages_sent,class_name: 'Message', foreign_key: 'sender_id'
+    has_many :messages_received,class_name: 'Message', foreign_key: 'receiver_id'
+    has_many :leaders_reviewed,class_name: 'Review',foreign_key: 'leader_id'
+    has_many :reviewers,class_name: 'Review',foreign_key: 'reviewer_id'
     belongs_to :county, optional: true
     has_many :interests
     has_many :leader_uploads     
@@ -16,4 +23,4 @@ class User < ApplicationRecord
     validates :contact, presence: true,uniqueness: true, format: { with: /\A[+]?[\d\s\-()]*\z/, message: "must be a valid phone number" }
     validates_uniqueness_of :username, if: -> { username.present? }
   end
-  
+ 
