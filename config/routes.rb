@@ -19,5 +19,7 @@ Rails.application.routes.draw do
   resources :events
   # Routes for Tickets
   resources :tickets
+  # Routes for NewsAndUpdatesComments
+  resources :news_and_update_comments
 
 end
