@@ -5,10 +5,7 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-<<<<<<< HEAD
-=======
 # require 'faker'
->>>>>>> 72545214b588fa1bd0aff784c4b925c869c5330d
 puts "Seeding database..."
 user1 = User.create(full_name:"John",national_id:"54536533",gender:"Male",date_of_birth:"18-04-1997",interests:"Better county for us all",occupation:"Doctor",contact:"0745362790",location:"Home",county_id:2,ward:"Mlolongo",role:0,password:"1234",elected_position:"none",profile_image:"https://images.unsplash.com",verified:false,active:true,is_deleted:false,email:"john@gmail.com")
 # user2 = User.create(full_name:"Jack",email:"jack@gmail.com")
@@ -20,7 +17,6 @@ user1 = User.create(full_name:"John",national_id:"54536533",gender:"Male",date_o
 # discussion_rep2 = DiscussionReply.create(discussion_id:2,user_id:2,content:"For my case i cant even see a tarmac road anymore its all dust",upvotes:3)
 # discussion_rep3 = DiscussionReply.create(discussion_id:3,user_id:3,content:"I am seeking individuals who are as into tech as I am but it is proving difficult",upvotes:2)
 
-<<<<<<< HEAD
 review1 = Review.create(content:"could do better in terms of engagement with citizens",rating:3.5,user_id:2)
 review1 = Review.create(content:"Really seen a significant improvement",rating:4.5,user_id:3)
 review1 = Review.create(content:"No dedication whatsoever to their work",rating:1.5,user_id:1)
@@ -38,7 +34,6 @@ puts "Done seeding"if County.all.length == 0
     { name: 'Kisii' },{ name: 'Nyamira' },{ name: 'Nairobi' }])
     puts "Counties seeded!"
 end
-=======
 # review1 = Review.create(content:"could do better in terms of engagement with citizens",rating:3.5,user_id:2)
 # review1 = Review.create(content:"Really seen a significant improvement",rating:4.5,user_id:3)
 # review1 = Review.create(content:"No dedication whatsoever to their work",rating:1.5,user_id:1)
@@ -84,4 +79,3 @@ end
 # event2 = Event.create(name:"signing in of governor",description:"The governor of our county is getting sweared into office",date:'15-10-2023',county_id:2,user_id:2)
 # event3= Event.create(name:"Leaders Summit",description:"All the leaders of our great county are meeting to discuss issues",date:'16-10-2023',county_id:3,user_id:2)
 # event4 = Event.create(name:"Baraza",description:"You the citizens can come to city hall and air your grievances",date:'17-10-2023',county_id:3,user_id:1)
->>>>>>> 72545214b588fa1bd0aff784c4b925c869c5330d
