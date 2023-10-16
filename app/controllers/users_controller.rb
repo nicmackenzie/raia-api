@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :validate_unprocessable_entity
+  
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :check_role, only: [:edit, :update, :destroy]
   before_action :check_admin, only: [:index]
-  before_action :check_parameter_existence, only: [:create,:update]
+  before_action :check_parameter_existence, only: [:create, :update]
   before_action :authenticate_user, except: [:create]
-  
+
   def index
     @users = User.all
     render json: @users
@@ -15,7 +16,6 @@ class UsersController < ApplicationController
     @top_users = User.top_influencers
     render json: @top_users
   end
-
   
   def find_by_username
     @user = User.find_by(username: params[:username])
@@ -39,7 +39,6 @@ class UsersController < ApplicationController
     end
   end
   
-
   def update
     if @user.update(user_params)
       render json: @user, status: :ok
@@ -72,11 +71,9 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :full_name, :national_id, :gender, :date_of_birth, :occupation, :interests, :contact, :location, :county_id, :ward, :role, :elected_position, :profile_image, :verified, :active, :is_deleted,:user_uid)
+    params.require(:user).permit(:username, :email, :full_name, :national_id, :gender, :date_of_birth, :occupation, :interests, :contact, :location, :county_id, :ward, :role, :elected_position, :profile_image, :verified, :active, :is_deleted, :user_uid)
   end
 
-  # confirm if the :user parameter is passed before create and update. 
-  # method added to counter the ActionController::ParameterMissing: param exception that would occur if request if made without data
   def check_parameter_existence
     unless params.key?(:user)
       render json: { error: 'Missing parameters' }, status: :bad_request
