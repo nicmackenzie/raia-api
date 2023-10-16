@@ -60,10 +60,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
   create_table "news_and_updates_comments", force: :cascade do |t|
     t.text "content"
     t.integer "user_id", null: false
-    t.integer "news_and_updates_id", null: false
+    t.integer "news_and_update_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["news_and_updates_id"], name: "index_news_and_updates_comments_on_news_and_updates_id"
+    t.index ["news_and_update_id"], name: "index_news_and_updates_comments_on_news_and_update_id"
     t.index ["user_id"], name: "index_news_and_updates_comments_on_user_id"
   end
 
@@ -118,7 +118,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
   add_foreign_key "leader_uploads", "users"
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
-  add_foreign_key "news_and_updates_comments", "news_and_updates", column: "news_and_updates_id"
+  add_foreign_key "news_and_updates_comments", "news_and_updates"
   add_foreign_key "news_and_updates_comments", "users"
   add_foreign_key "petitions", "users"
   add_foreign_key "tickets", "users"
