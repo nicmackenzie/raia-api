@@ -1,4 +1,6 @@
 class ReviewsController < ApplicationController
+    wrap_parameters format: []
+rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
     def index
         render json: Review.all, status: :ok
     end
@@ -21,5 +23,8 @@ class ReviewsController < ApplicationController
     end
     def find_review(id)
         review = Review.find(id)
+    end
+    def render_not_found
+        render json: {error:"Review Not Found"},status: :not_found
     end
 end
