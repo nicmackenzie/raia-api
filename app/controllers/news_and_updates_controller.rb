@@ -8,7 +8,7 @@ class NewsAndUpdatesController < ApplicationController
     end
   
     def show
-      render json: @news_and_update
+      render json: @news_and_update, include: :news_and_updates_comments
     end
   
     def create

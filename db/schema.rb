@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_16_172032) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -55,6 +55,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172032) do
     t.string "image"
     t.index ["county_id"], name: "index_news_and_updates_on_county_id"
     t.index ["user_id"], name: "index_news_and_updates_on_user_id"
+  end
+
+  create_table "news_and_updates_comments", force: :cascade do |t|
+    t.text "content"
+    t.integer "user_id", null: false
+    t.integer "news_and_updates_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["news_and_updates_id"], name: "index_news_and_updates_comments_on_news_and_updates_id"
+    t.index ["user_id"], name: "index_news_and_updates_comments_on_user_id"
   end
 
   create_table "petitions", force: :cascade do |t|
@@ -108,6 +118,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172032) do
   add_foreign_key "leader_uploads", "users"
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
+  add_foreign_key "news_and_updates_comments", "news_and_updates", column: "news_and_updates_id"
+  add_foreign_key "news_and_updates_comments", "users"
   add_foreign_key "petitions", "users"
   add_foreign_key "tickets", "users"
   add_foreign_key "tickets", "users", column: "assigned_leader_id"
