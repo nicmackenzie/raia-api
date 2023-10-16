@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_12_091836) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_16_172032) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_12_091836) do
     t.date "published_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image"
     t.index ["county_id"], name: "index_news_and_updates_on_county_id"
     t.index ["user_id"], name: "index_news_and_updates_on_user_id"
   end

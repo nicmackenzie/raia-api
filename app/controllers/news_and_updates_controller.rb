@@ -42,7 +42,7 @@ class NewsAndUpdatesController < ApplicationController
     end
   
     def news_and_update_params
-      params.require(:news_and_update).permit(:title, :content, :county_id, :user_id, :published_date)
+      params.require(:news_and_update).permit(:title, :content, :image, :county_id, :user_id, :published_date)
     end
 end
   
