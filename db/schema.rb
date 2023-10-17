@@ -10,11 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
+
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "discussion_replies", force: :cascade do |t|
+    t.integer "discussion_id", null: false
+    t.integer "user_id", null: false
+    t.text "content"
+    t.integer "upvotes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discussion_id"], name: "index_discussion_replies_on_discussion_id"
+    t.index ["user_id"], name: "index_discussion_replies_on_user_id"
+  end
+
+  create_table "discussions", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.integer "user_id", null: false
+    t.boolean "is_deleted"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -27,6 +50,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
     t.datetime "updated_at", null: false
     t.index ["county_id"], name: "index_events_on_county_id"
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.integer "follower_id", null: false
+    t.integer "followed_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followed_id"], name: "index_follows_on_followed_id"
+    t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
   create_table "interests", force: :cascade do |t|
@@ -44,6 +76,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
     t.index ["user_id"], name: "index_leader_uploads_on_user_id"
   end
 
+
   create_table "news_and_update_comments", force: :cascade do |t|
     t.text "content"
     t.integer "user_id", null: false
@@ -52,6 +85,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
     t.datetime "updated_at", null: false
     t.index ["news_and_update_id"], name: "index_news_and_update_comments_on_news_and_update_id"
     t.index ["user_id"], name: "index_news_and_update_comments_on_user_id"
+
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.integer "sender_id", null: false
+    t.integer "receiver_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "news_and_updates", force: :cascade do |t|
@@ -74,6 +114,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_petitions_on_user_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.text "content"
+    t.decimal "rating"
+    t.integer "reviewer_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "leader_id"
+    t.string "category"
+    t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -112,8 +163,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
     t.string "user_uid"
   end
 
+  add_foreign_key "discussion_replies", "discussions"
+  add_foreign_key "discussion_replies", "users"
+  add_foreign_key "discussions", "users"
   add_foreign_key "events", "counties"
   add_foreign_key "events", "users"
+  add_foreign_key "follows", "followeds"
+  add_foreign_key "follows", "followers"
   add_foreign_key "interests", "users"
   add_foreign_key "leader_uploads", "users"
   add_foreign_key "news_and_update_comments", "news_and_updates"
@@ -121,6 +177,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
   add_foreign_key "petitions", "users"
+
+  add_foreign_key "reviews", "users", column: "reviewer_id"
+
   add_foreign_key "tickets", "users"
   add_foreign_key "tickets", "users", column: "assigned_leader_id"
 end
