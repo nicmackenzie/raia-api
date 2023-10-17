@@ -10,13 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema[7.0].define(version: 2023_10_14_130735) do
-=======
-
-ActiveRecord::Schema[7.0].define(version: 2023_10_15_124210) do
-
->>>>>>> 75f7a8958b6a134cb0a4be063cb078681c55fed2
+ActiveRecord::Schema[7.0].define(version: 2023_10_17_195328) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -47,11 +41,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_15_124210) do
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.date "date"
+    t.datetime "date"
     t.integer "county_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "location"
     t.index ["county_id"], name: "index_events_on_county_id"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
@@ -169,9 +164,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_15_124210) do
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
   add_foreign_key "petitions", "users"
-
   add_foreign_key "reviews", "users", column: "reviewer_id"
-
   add_foreign_key "tickets", "users"
   add_foreign_key "tickets", "users", column: "assigned_leader_id"
 end
