@@ -190,9 +190,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-
   active_model_serializers (= 0.10.14)
-
   bcrypt (~> 3.1.7)
   debug
   dotenv-rails
