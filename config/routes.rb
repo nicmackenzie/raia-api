@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   post '/signup', to: 'users#create'
   post '/certificate-upload', to: 'leader_uploads#create'
   get '/me', to:'sessions#me'
+  patch '/session/set_uid/:id', to:'sessions#set_uid'
 
   # Defines the root path route ("/")
   # root "articles#index"
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
       collection do
         get 'top_influencers'
         get 'find_by_username/:username', to: 'users#find_by_username', as: 'find_by_username'
+        get 'leaders'
       end
   
       member do

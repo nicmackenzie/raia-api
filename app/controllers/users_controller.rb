@@ -51,6 +51,11 @@ class UsersController < ApplicationController
     @user.destroy
     head :no_content
   end
+
+  def leaders
+    @leaders = User.where(role: 'leader', county_id: @current_user.county_id)
+    render json: @leaders
+  end
   
   private
 
