@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :validate_unprocessable_entity
   
+  before_action :authenticate_user, except: [:create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :check_role, only: [:edit, :update, :destroy]
   before_action :check_admin, only: [:index]
   before_action :check_parameter_existence, only: [:create, :update]
-  before_action :authenticate_user, except: [:create]
 
   def index
     @users = User.all
@@ -59,13 +59,13 @@ class UsersController < ApplicationController
   end
 
   def check_role
-    unless current_user&.admin? || current_user == @user
+    unless @current_user&.admin? || @current_user == @user
       render json: { error: "You don't have the necessary permissions to perform this action." }, status: :forbidden
     end
   end
 
   def check_admin
-    unless current_user&.admin?
+    unless @current_user&.admin?
       render json: { error: "You don't have the necessary permissions to access this page." }, status: :forbidden
     end
   end
