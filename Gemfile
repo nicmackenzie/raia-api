@@ -25,13 +25,11 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end
 
-gem 'active_model_serializers', '0.10.14'
-
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
 
 # serializers
-# gem 'active_model_serializers'
+gem 'active_model_serializers'
 

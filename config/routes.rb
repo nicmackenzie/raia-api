@@ -3,17 +3,19 @@ Rails.application.routes.draw do
   post '/signup', to: 'users#create'
   post '/certificate-upload', to: 'leader_uploads#create'
   get '/me', to:'sessions#me'
+  patch '/session/set_uid/:id', to:'sessions#set_uid'
 
 
   resources :users, only: [:index]
 
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :reviews, only: [:index,show,:create,:destroy]
+  resources :reviews, only: [:index,:show,:create,:destroy]
+
   resources :messages, only: [:show,:create,:destroy]
   resources :discussion_replies,only: [:index,:create]
   resources :discussions,only: [:index,:create,:destroy]
-  
+
   resource :session, only: [:create, :destroy]
 
     # User routes
@@ -21,7 +23,7 @@ Rails.application.routes.draw do
       collection do
         get 'top_influencers'
         get 'find_by_username/:username', to: 'users#find_by_username', as: 'find_by_username'
-        get 'leaders_in_my_county'
+        get 'leaders'
       end
   
       member do
@@ -42,10 +44,9 @@ Rails.application.routes.draw do
   resources :events
   # Routes for Tickets
   resources :tickets
-  
-  # Routes for NewsAndUpdatesComments
-  resources :news_and_update_comments
 
+  match '*unmatched', to: 'application#route_not_found', via: :all
 end
+
 
 
