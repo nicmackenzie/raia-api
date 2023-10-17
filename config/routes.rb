@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       collection do
         get 'top_influencers'
         get 'find_by_username/:username', to: 'users#find_by_username', as: 'find_by_username'
-        get 'leaders_in_my_county'
+        get 'leaders'
       end
   
       member do
