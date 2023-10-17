@@ -52,8 +52,15 @@ class UsersController < ApplicationController
     head :no_content
   end
 
+   # This method will fetch and return leaders of the same county as the current user
+   def leaders_in_my_county
+    @leaders = User.where(role: 'leader', county: current_user.county)
+    render json: @leaders
+  end
+  
   private
 
+   
   def set_user
     @user = User.find(params[:id])
   end

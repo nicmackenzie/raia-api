@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   resources :messages, only: [:show,:create,:destroy]
   resources :discussion_replies,only: [:index,:create]
   resources :discussions,only: [:index,:create,:destroy]
-  resources :users, only: [:index, :show,:update,:destroy]
   resource :session, only: [:create, :destroy]
 
     # User routes
@@ -18,6 +17,7 @@ Rails.application.routes.draw do
       collection do
         get 'top_influencers'
         get 'find_by_username/:username', to: 'users#find_by_username', as: 'find_by_username'
+        get 'leaders_in_my_county'
       end
   
       member do
