@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
-  
+ActiveRecord::Schema[7.0].define(version: 2023_10_16_173816) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -76,6 +74,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
     t.index ["user_id"], name: "index_leader_uploads_on_user_id"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.integer "sender_id", null: false
+    t.integer "receiver_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "news_and_update_comments", force: :cascade do |t|
     t.text "content"
@@ -85,13 +90,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
     t.datetime "updated_at", null: false
     t.index ["news_and_update_id"], name: "index_news_and_update_comments_on_news_and_update_id"
     t.index ["user_id"], name: "index_news_and_update_comments_on_user_id"
-
-  create_table "messages", force: :cascade do |t|
-    t.text "content"
-    t.integer "sender_id", null: false
-    t.integer "receiver_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "news_and_updates", force: :cascade do |t|
@@ -178,9 +176,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
   add_foreign_key "petitions", "users"
-
   add_foreign_key "reviews", "users", column: "reviewer_id"
-
   add_foreign_key "tickets", "users"
   add_foreign_key "tickets", "users", column: "assigned_leader_id"
 end
