@@ -12,7 +12,7 @@
 
 
 ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
-
+  
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -161,6 +161,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "user_uid"
+    t.string "username"
   end
 
   add_foreign_key "discussion_replies", "discussions"
