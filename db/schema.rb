@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_16_173816) do
+
+ActiveRecord::Schema[7.0].define(version: 2023_10_15_124210) do
+
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -106,10 +108,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_173816) do
   create_table "reviews", force: :cascade do |t|
     t.text "content"
     t.decimal "rating"
-    t.integer "user_id", null: false
+    t.integer "reviewer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_reviews_on_user_id"
+    t.integer "leader_id"
+    t.string "category"
+    t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -160,7 +164,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_173816) do
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
   add_foreign_key "petitions", "users"
-  add_foreign_key "reviews", "users"
+
+  add_foreign_key "reviews", "users", column: "reviewer_id"
+
   add_foreign_key "tickets", "users"
   add_foreign_key "tickets", "users", column: "assigned_leader_id"
 end
