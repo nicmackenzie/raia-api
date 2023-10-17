@@ -3,16 +3,16 @@ class NewsAndUpdatesController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
   
     def index
-      news_and_updates = NewsAndUpdates.all
+      news_and_updates = NewsAndUpdate.all
       render json: news_and_updates
     end
   
     def show
-      render json: @news_and_update
+      render json: @news_and_update.as_json(include: :news_and_update_comments)
     end
-  
+    
     def create
-      @news_and_update = NewsAndUpdates.create(news_and_update_params)
+      @news_and_update = NewsAndUpdate.create(news_and_update_params)
     
       if @news_and_update.valid?
         render json: @news_and_update, status: :created
@@ -38,11 +38,11 @@ class NewsAndUpdatesController < ApplicationController
     private
   
     def set_news_and_update
-      @news_and_update = NewsAndUpdates.find(params[:id])
+      @news_and_update = NewsAndUpdate.find(params[:id])
     end
   
     def news_and_update_params
-      params.require(:news_and_update).permit(:title, :content, :county_id, :user_id, :published_date)
+      params.require(:news_and_update).permit(:title, :content, :image, :county_id, :user_id, :published_date)
     end
 end
   
