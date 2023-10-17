@@ -8,9 +8,6 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index]
 
-
-  resources :users, only: [:index]
-
   # Defines the root path route ("/")
   # root "articles#index"
   resources :reviews, only: [:index,:show,:create,:destroy]
@@ -18,6 +15,7 @@ Rails.application.routes.draw do
   resources :messages, only: [:show,:create,:destroy]
   resources :discussion_replies,only: [:index,:create]
   resources :discussions,only: [:index,:create,:destroy]
+
   resource :session, only: [:create, :destroy]
 
     # User routes
@@ -49,4 +47,6 @@ Rails.application.routes.draw do
 
   match '*unmatched', to: 'application#route_not_found', via: :all
 end
-  
+
+
+
