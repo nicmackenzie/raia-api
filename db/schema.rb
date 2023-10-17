@@ -14,7 +14,7 @@
 ActiveRecord::Schema[7.0].define(version: 2023_10_14_130735) do
 =======
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_15_124210) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_16_172303) do
 
 >>>>>>> 75f7a8958b6a134cb0a4be063cb078681c55fed2
   create_table "counties", force: :cascade do |t|
@@ -80,6 +80,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_15_124210) do
     t.index ["user_id"], name: "index_leader_uploads_on_user_id"
   end
 
+
+  create_table "news_and_update_comments", force: :cascade do |t|
+    t.text "content"
+    t.integer "user_id", null: false
+    t.integer "news_and_update_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["news_and_update_id"], name: "index_news_and_update_comments_on_news_and_update_id"
+    t.index ["user_id"], name: "index_news_and_update_comments_on_user_id"
+
   create_table "messages", force: :cascade do |t|
     t.text "content"
     t.integer "sender_id", null: false
@@ -96,6 +106,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_15_124210) do
     t.date "published_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image"
     t.index ["county_id"], name: "index_news_and_updates_on_county_id"
     t.index ["user_id"], name: "index_news_and_updates_on_user_id"
   end
@@ -166,6 +177,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_15_124210) do
   add_foreign_key "follows", "followers"
   add_foreign_key "interests", "users"
   add_foreign_key "leader_uploads", "users"
+  add_foreign_key "news_and_update_comments", "news_and_updates"
+  add_foreign_key "news_and_update_comments", "users"
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
   add_foreign_key "petitions", "users"
