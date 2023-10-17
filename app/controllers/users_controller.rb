@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :validate_unprocessable_entity
   
+  before_action :authenticate_user, except: [:create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :check_role, only: [:edit, :update, :destroy]
   before_action :check_admin, only: [:index]
   before_action :check_parameter_existence, only: [:create, :update]
-  before_action :authenticate_user, except: [:create]
 
   def index
     @users = User.all
@@ -52,9 +52,8 @@ class UsersController < ApplicationController
     head :no_content
   end
 
-   # This method will fetch and return leaders of the same county as the current user
-   def leaders
-    @leaders = User.where(role: 'leader', county_id: current_user.county_id)
+  def leaders
+    @leaders = User.where(role: 'leader', county_id: @current_user.county_id)
     render json: @leaders
   end
   
@@ -88,19 +87,19 @@ end
   end
 
   def check_role
-    unless current_user&.admin? || current_user == @user
+    unless @current_user&.admin? || @current_user == @user
       render json: { error: "You don't have the necessary permissions to perform this action." }, status: :forbidden
     end
   end
 
   def check_admin
-    unless current_user&.admin?
+    unless @current_user&.admin?
       render json: { error: "You don't have the necessary permissions to access this page." }, status: :forbidden
     end
   end
-
+  
   def user_params
-    params.require(:user).permit(:username, :email, :full_name, :national_id, :gender, :date_of_birth, :occupation, :interests, :contact, :location, :county_id, :ward, :role, :elected_position, :profile_image, :verified, :active, :is_deleted, :user_uid)
+    params.require(:user).permit(:email, :full_name, :national_id, :gender, :date_of_birth, :occupation, :interests, :contact, :location, :county_id, :ward, :role, :elected_position, :profile_image, :verified, :active, :is_deleted,:user_uid,:username)
   end
 
   def check_parameter_existence
