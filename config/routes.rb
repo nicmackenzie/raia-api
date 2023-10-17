@@ -38,5 +38,7 @@ Rails.application.routes.draw do
   resources :events
   # Routes for Tickets
   resources :tickets
+
+  match '*unmatched', to: 'application#route_not_found', via: :all
 end
   
