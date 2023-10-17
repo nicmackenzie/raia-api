@@ -20,5 +20,5 @@ class User < ApplicationRecord
     validates :contact, presence: true,uniqueness: true, format: { with: /\A[+]?[\d\s\-()]*\z/, message: "must be a valid phone number" }
     validates_uniqueness_of :username, if: -> { username.present? }
     # ... rest of the model code ...
-  end
+ end
   
