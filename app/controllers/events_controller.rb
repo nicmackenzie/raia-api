@@ -42,7 +42,13 @@ class EventsController < ApplicationController
     end
   
     def event_params
-      params.require(:event).permit(:name, :description, :date, :county_id, :user_id)
+      # params.require(:event).permit(:name, :description, :date, :county_id, :user_id)
+      # event_datetime = DateTime.strptime(params[:time], "%I:%M%p")
+      date = Date.strptime(params[:date], '%Y-%m-%d')
+      time = DateTime.strptime(params[:time], '%I:%M%p')
+
+      combined_datetime = DateTime.new(date.year, date.month, date.day, time.hour, time.min, 0)
+      params.permit(:name, :description,:county_id, :user_id,:location).merge(date: combined_datetime)
     end
 end
   
