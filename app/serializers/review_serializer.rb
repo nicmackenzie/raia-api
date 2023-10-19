@@ -1,4 +1,4 @@
 class ReviewSerializer < ActiveModel::Serializer
-  attributes :id,:content,:rating
-  belongs_to :user
+  attributes :id,:content,:rating,:category,:created_at
+  belongs_to :reviewer, serializer: ReviewUserSerializer
 end

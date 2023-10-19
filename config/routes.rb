@@ -7,7 +7,11 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :reviews, only: [:index,:show,:create,:destroy]
+  resources :reviews, only: [:index,:show,:create,:destroy] do
+    collection do
+      get 'leader', to: 'reviews#by_leader'
+    end
+  end
 
   resources :messages, only: [:show,:create,:destroy]
   resources :discussion_replies,only: [:index,:create]
