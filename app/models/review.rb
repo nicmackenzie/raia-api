@@ -4,6 +4,8 @@ class Review < ApplicationRecord
 
   validates :content,:rating,:category,:reviewer_id,:leader_id,presence: true
   validate :reviewer_and_leader_not_same
+  validates :content,:category,:reviewer_id,:leader_id,:rating,presence: true
+
   def reviewer_and_leader_not_same
     if reviewer_id == leader_id
       error.add(:base,"Reviewer and leader cannot be the same")

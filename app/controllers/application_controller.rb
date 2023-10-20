@@ -1,7 +1,12 @@
 class ApplicationController < ActionController::API
+  rescue_from StandardError, with: :handle_uncaught_error
   before_action :authenticate_user
-  
 
+
+  def route_not_found
+    render json: {error: 'Invalid route!'}, status: :not_found
+  end
+  
   private
 
   def authenticate_user
@@ -21,5 +26,10 @@ class ApplicationController < ActionController::API
     else
       render json: { error: 'Token missing' }, status: :unauthorized
     end
+  end
+
+  def handle_uncaught_error(exception)
+    Rails.logger.error(exception)
+    render json: { error: exception.message }, status: :internal_server_error
   end
 end

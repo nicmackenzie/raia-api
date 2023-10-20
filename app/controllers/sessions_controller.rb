@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :authenticate_user, only: [:create]
+  skip_before_action :authenticate_user, only: [:create,:set_uid]
 
   def create
     user = User.find_by(email: params[:email]) 
@@ -17,6 +17,16 @@ class SessionsController < ApplicationController
   # get currently logged user
   def me
     render json: @current_user,except: [:password_digest,:created_at,:updated_at]
+  end
+
+  def set_uid
+    user = User.find(params[:id])
+    if user
+      user.update(user_uid: params[:user_uid])
+      render json: {message: "successfully signed up"}
+    else
+      render json: {error: 'Unable to complete request'},status: :not_found
+    end
   end
 
   def destroy
