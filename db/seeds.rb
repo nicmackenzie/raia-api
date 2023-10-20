@@ -7,7 +7,7 @@
 #   Character.create(name: "Luke", movie: movies.first)
 # require 'faker'
 puts "Seeding database..."
-user1 = User.create(full_name:"John",national_id:"54536533",gender:"Male",date_of_birth:"18-04-1997",interests:"Better county for us all",occupation:"Doctor",contact:"0745362790",location:"Home",county_id:2,ward:"Mlolongo",role:0,password:"1234",elected_position:"none",profile_image:"https://images.unsplash.com",verified:false,active:true,is_deleted:false,email:"john@gmail.com")
+# user1 = User.create(full_name:"John",national_id:"54536533",gender:"Male",date_of_birth:"18-04-1997",interests:"Better county for us all",occupation:"Doctor",contact:"0745362790",location:"Home",county_id:2,ward:"Mlolongo",role:0,password:"1234",elected_position:"none",profile_image:"https://images.unsplash.com",verified:false,active:true,is_deleted:false,email:"john@gmail.com")
 # user2 = User.create(full_name:"Jack",email:"jack@gmail.com")
 # user3 = User.create(full_name:"Eustus",email:"eustus@gmail.com")
 # discussion1 = Discussion.create(title:"Climate change",content:"The weather patterns recently have drastically changed",user_id:1,is_deleted:false)
@@ -16,7 +16,13 @@ user1 = User.create(full_name:"John",national_id:"54536533",gender:"Male",date_o
 # discussion_rep = DiscussionReply.create(discussion_id:1,user_id:1,content:"Yes i agree for example in Rongai it has been extremely cold the past week which is very rare",upvotes:2)
 # discussion_rep2 = DiscussionReply.create(discussion_id:2,user_id:2,content:"For my case i cant even see a tarmac road anymore its all dust",upvotes:3)
 # discussion_rep3 = DiscussionReply.create(discussion_id:3,user_id:3,content:"I am seeking individuals who are as into tech as I am but it is proving difficult",upvotes:2)
-
+# detail1 = EventDetail.create(user_id:1,event_id:2,is_attending:true)
+# detail2 = EventDetail.create(user_id:2,event_id:2,is_attending:true)
+detail3 = EventDetail.create(user_id:1,event_id:3,is_attending:true)
+detail4 = EventDetail.create(user_id:1,event_id:3,is_attending:true)
+detail5 = EventDetail.create(user_id:1,event_id:4,is_attending:true)
+detail6 = EventDetail.create(user_id:1,event_id:4,is_attending:true)
+puts "Done seeding"
 # review1 = Review.create(content:"could do better in terms of engagement with citizens",rating:3.5,user_id:2)
 # review1 = Review.create(content:"Really seen a significant improvement",rating:4.5,user_id:3)
 # review1 = Review.create(content:"No dedication whatsoever to their work",rating:1.5,user_id:1)

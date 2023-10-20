@@ -12,6 +12,7 @@ class User < ApplicationRecord
   belongs_to :county, optional: true
   has_many :interests
   has_many :leader_uploads
+  has_many :events,through: :event_details
     
   # Following functionality
   has_many :active_relationships, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
