@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   resources :discussions,only: [:index,:create,:destroy]
   resources :users, only: [:index, :show,:update,:destroy]
   resource :session, only: [:create, :destroy]
-  resource :event_details
+  resource :event_details, only:[:create,:show]
 
     # User routes
     resources :users, only: [:index, :show, :update, :destroy] do
