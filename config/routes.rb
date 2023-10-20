@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   resources :discussion_replies,only: [:index,:create]
   resources :discussions,only: [:index,:create,:destroy]
   resources :users, only: [:index, :show,:update,:destroy]
->>>>>>>>> Temporary merge branch 2
   resource :session, only: [:create, :destroy]
 
     # User routes
