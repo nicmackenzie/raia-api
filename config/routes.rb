@@ -41,7 +41,11 @@ Rails.application.routes.draw do
   # Routes for NewsAndUpdates
   resources :news_and_updates
   # Routes for Events
-  resources :events
+  resources :events do 
+    collection do
+      get 'by_range', to: 'events#by_range'
+    end
+  end
   # Routes for Tickets
   resources :tickets
 
