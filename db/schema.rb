@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_16_173816) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_19_200100) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -41,11 +41,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_173816) do
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.date "date"
+    t.datetime "date"
     t.integer "county_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "location"
+    t.string "poster_url"
     t.index ["county_id"], name: "index_events_on_county_id"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
