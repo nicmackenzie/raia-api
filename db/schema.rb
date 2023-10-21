@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_19_200100) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_21_084857) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -36,6 +36,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_19_200100) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_discussions_on_user_id"
+  end
+
+  create_table "event_attendees", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["event_id"], name: "index_event_attendees_on_event_id"
+    t.index ["user_id"], name: "index_event_attendees_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -167,6 +175,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_19_200100) do
   add_foreign_key "discussion_replies", "discussions"
   add_foreign_key "discussion_replies", "users"
   add_foreign_key "discussions", "users"
+  add_foreign_key "event_attendees", "events"
+  add_foreign_key "event_attendees", "users"
   add_foreign_key "events", "counties"
   add_foreign_key "events", "users"
   add_foreign_key "follows", "followeds"

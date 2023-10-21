@@ -2,6 +2,7 @@ class EventsController < ApplicationController
     before_action :set_event, only: [:show, :edit, :update, :destroy]
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
     rescue_from ArgumentError, with: :argument_validate
+    rescue_from ActiveRecord::RecordInvalid, with: :validate_unprocessable_entity
   
     def index
       events = Event.all
@@ -13,12 +14,15 @@ class EventsController < ApplicationController
     end
   
     def create
-      @event = Event.create(event_params)
+      ActiveRecord::Base.transaction do
+        @event = Event.create!(event_params)
+        @attendee = EventAttendee.create!(event_id: @event.id, user_id: @current_user.id)
     
-      if @event.valid?
-        render json: @event, status: :created
-      else
-        render json: { error: @event.errors.full_messages.join(', ') }, status: :unprocessable_entity
+        if @event.valid?
+          render json: @event, status: :created
+        else
+          render json: { error: @event.errors.full_messages.join(', ') }, status: :unprocessable_entity
+        end
       end
     end
   
@@ -57,6 +61,10 @@ class EventsController < ApplicationController
     def set_event
       @event = Event.find(params[:id])
     end
+
+    def not_found
+      render json: {error: "Event not found"}, status: :not_found
+    end
   
     def event_params
       # params.require(:event).permit(:name, :description, :date, :county_id, :user_id)
@@ -70,6 +78,10 @@ class EventsController < ApplicationController
 
     def argument_validate
       render json: { error: 'Invalid date format' }, status: :bad_request
+    end
+
+    def validate_unprocessable_entity(invalid)
+      render json: {errors: invalid.record.errors.full_messages},status: :unprocessable_entity
     end
 end
   

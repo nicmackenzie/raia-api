@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   resources :events do 
     collection do
       get 'by_range', to: 'events#by_range'
+      post ':id/attend', to: 'event_attendees#create'
+      get ':id/attendees', to: 'events#attendees'
     end
   end
   # Routes for Tickets
