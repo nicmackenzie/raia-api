@@ -49,13 +49,16 @@ class EventsController < ApplicationController
     def destroy
       @event.destroy
       head :no_content
-      render json: {}
     end
   
     private
   
     def set_event
       @event = Event.find(params[:id])
+    end
+
+    def not_found
+      render json: {error: "Record not found"}
     end
   
     def event_params
