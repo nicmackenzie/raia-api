@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-    before_action :set_event, only: [:show, :edit, :update, :destroy]
+    before_action :set_event, only: [:show, :edit, :update, :destroy,:enquire]
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
     rescue_from ArgumentError, with: :argument_validate
     rescue_from ActiveRecord::RecordInvalid, with: :validate_unprocessable_entity
@@ -16,9 +16,20 @@ class EventsController < ApplicationController
     def create
       ActiveRecord::Base.transaction do
         @event = Event.create!(event_params)
-        @attendee = EventAttendee.create!(event_id: @event.id, user_id: @current_user.id)
-    
+        
         if @event.valid?
+          @attendee = EventAttendee.create!(event_id: @event.id, user_id: @current_user.id)
+          # setup background worker to handle code below
+          county_users = User.where(county_id: @current_user.county_id,active: true,is_deleted: false)
+          message = "#{@current_user.full_name} created a new event: #{@event.name}"
+          redirect_url = "/events/#{@event.id}"
+
+          county_users.each do |user|
+            unless user.id = @current_user.id
+              Notification.create(user_from_id: @current_user.id, user_to_id: user.id, message: message, notification_type: 'event', redirect_url: redirect_url)
+            end
+          end
+
           render json: @event, status: :created
         else
           render json: { error: @event.errors.full_messages.join(', ') }, status: :unprocessable_entity
@@ -48,6 +59,20 @@ class EventsController < ApplicationController
         events = Event.where(date: params[:start_date]..params[:end_date])
         render json: events
       end
+    end
+
+    def enquire
+     if @event
+      ActiveRecord::Base.transaction do
+        enquiry = EventEnquiry.create!(enquiry_params)
+        if enquiry
+          Notification.create(notification_params)
+          render json: {message: 'Enquiry has been submitted successfully'},status: :created
+        else
+          render json: {error: 'Unable to send enquiry' }, status: :internal_server_error
+        end
+      end
+     end
     end
   
     def destroy
@@ -82,6 +107,14 @@ class EventsController < ApplicationController
 
     def validate_unprocessable_entity(invalid)
       render json: {errors: invalid.record.errors.full_messages},status: :unprocessable_entity
+    end
+
+    def enquiry_params
+      params.permit(:user_id,:message).merge(event_id: params[:id])
+    end
+
+    def notification_params
+      params.permit(:user_to_id).merge(message: 'You have received an enquiry on an event you created',user_from_id: params[:user_id])
     end
 end
   

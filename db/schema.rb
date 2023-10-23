@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_21_084857) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_22_141354) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -44,6 +44,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_21_084857) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["event_id"], name: "index_event_attendees_on_event_id"
     t.index ["user_id"], name: "index_event_attendees_on_user_id"
+  end
+
+  create_table "event_enquiries", force: :cascade do |t|
+    t.text "message"
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["event_id"], name: "index_event_enquiries_on_event_id"
+    t.index ["user_id"], name: "index_event_enquiries_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -115,6 +124,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_21_084857) do
     t.index ["user_id"], name: "index_news_and_updates_on_user_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "user_from_id"
+    t.integer "user_to_id", null: false
+    t.string "message"
+    t.string "status", default: "unread"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.string "redirect_url"
+    t.string "notification_type"
+    t.index ["user_from_id"], name: "index_notifications_on_user_from_id"
+    t.index ["user_to_id"], name: "index_notifications_on_user_to_id"
+  end
+
   create_table "petitions", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -177,6 +198,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_21_084857) do
   add_foreign_key "discussions", "users"
   add_foreign_key "event_attendees", "events"
   add_foreign_key "event_attendees", "users"
+  add_foreign_key "event_enquiries", "events"
+  add_foreign_key "event_enquiries", "users"
   add_foreign_key "events", "counties"
   add_foreign_key "events", "users"
   add_foreign_key "follows", "followeds"
@@ -187,6 +210,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_21_084857) do
   add_foreign_key "news_and_update_comments", "users"
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
+  add_foreign_key "notifications", "users", column: "user_from_id"
+  add_foreign_key "notifications", "users", column: "user_to_id"
   add_foreign_key "petitions", "users"
   add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "tickets", "users"

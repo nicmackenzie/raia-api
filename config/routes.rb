@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :notifications, only: [:index,:destroy]
   # Custom route for user registration
   post '/signup', to: 'users#create'
   post '/certificate-upload', to: 'leader_uploads#create'
@@ -46,8 +47,9 @@ Rails.application.routes.draw do
   resources :events do 
     collection do
       get 'by_range', to: 'events#by_range'
+      get ':id/attendees', to: 'event_attendees#attendees'
       post ':id/attend', to: 'event_attendees#create'
-      get ':id/attendees', to: 'events#attendees'
+      post ':id/enquiry', to: 'events#enquire'
     end
   end
   # Routes for Tickets

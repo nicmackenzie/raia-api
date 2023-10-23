@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :leader_uploads
   has_many :events
   has_many :event_attendees
+  has_many :event_enquiries
     
   # # Following functionality
   has_many :active_relationships, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
