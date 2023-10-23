@@ -6,7 +6,6 @@ rescue_from ActiveRecord::RecordNotFound,with: :render_not_found
         render json: event_details, status: :created
     end
     def show
-        byebug
         event = find_event(params[:id])
         render json: event.users, status: :ok
     end
