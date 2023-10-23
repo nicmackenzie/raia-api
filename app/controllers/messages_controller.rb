@@ -52,11 +52,12 @@ class MessagesController < ApplicationController
   
     # Create a new message
     def create
-        sender = User.find_by(username: message_params[:sender])
+        # sender should be the current user
+        # sender = User.find_by(username: message_params[:sender])
         receiver = User.find_by(username: message_params[:receiver])
         
-        if sender && receiver
-          @message = Message.new(sender_id: sender.id, receiver_id: receiver.id, content: message_params[:content])
+        if receiver
+          @message = Message.new(sender_id: message_params[:sender_id], receiver_id: receiver.id, content: message_params[:content])
           
           if @message.save
             render json: @message, status: :created
@@ -64,7 +65,7 @@ class MessagesController < ApplicationController
             render json: @message.errors, status: :unprocessable_entity
           end
         else
-          render json: { error: "Invalid sender or receiver" }, status: :bad_request
+          render json: { error: "Invalid receiver" }, status: :bad_request
         end
     end
       
@@ -79,8 +80,8 @@ class MessagesController < ApplicationController
     
     # Use strong parameters to allow specific data through
     def message_params
-        params.require(:message).permit(:sender, :receiver, :content)
-      end
+        params.require(:message).permit(:sender_id, :receiver, :content)
+    end
 
     # Handle RecordInvalid errors
     def render_record_invalid(exception)
