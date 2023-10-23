@@ -25,7 +25,7 @@ class EventsController < ApplicationController
           redirect_url = "/events/#{@event.id}"
 
           county_users.each do |user|
-            unless user.id = @current_user.id
+            if user.id != @current_user.id
               Notification.create(user_from_id: @current_user.id, user_to_id: user.id, message: message, notification_type: 'event', redirect_url: redirect_url)
             end
           end

@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
-  resources :notifications, only: [:index,:destroy]
   # Custom route for user registration
   post '/signup', to: 'users#create'
   post '/certificate-upload', to: 'leader_uploads#create'
   get '/me', to:'sessions#me'
   patch '/session/set_uid/:id', to:'sessions#set_uid'
-
-
+  
+  
   # Defines the root path route ("/")
   # root "articles#index"
+  resources :notifications, only: [:index,:update,:destroy]
   resources :reviews, only: [:index,:show,:create,:destroy] do
     collection do
       get 'leader', to: 'reviews#by_leader'
