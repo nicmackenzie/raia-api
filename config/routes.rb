@@ -6,11 +6,13 @@ Rails.application.routes.draw do
   patch '/session/set_uid/:id', to:'sessions#set_uid'
 
 
-  resources :users, only: [:index]
-
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :reviews, only: [:index,:show,:create,:destroy]
+  resources :reviews, only: [:index,:show,:create,:destroy] do
+    collection do
+      get 'leader', to: 'reviews#by_leader'
+    end
+  end
 
   resources :messages do
     collection do
@@ -47,7 +49,11 @@ Rails.application.routes.draw do
   # Routes for NewsAndUpdates
   resources :news_and_updates
   # Routes for Events
-  resources :events
+  resources :events do 
+    collection do
+      get 'by_range', to: 'events#by_range'
+    end
+  end
   # Routes for Tickets
   resources :tickets
 

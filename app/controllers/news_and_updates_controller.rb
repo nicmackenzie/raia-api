@@ -32,10 +32,13 @@ class NewsAndUpdatesController < ApplicationController
     def destroy
       @news_and_update.destroy
       head :no_content
-      render json: {}
     end
   
     private
+
+    def not_found
+      render json: {error: "Record not found"}
+    end
   
     def set_news_and_update
       @news_and_update = NewsAndUpdate.find(params[:id])

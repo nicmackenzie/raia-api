@@ -33,10 +33,13 @@ class PetitionsController < ApplicationController
     def destroy
       @petition.destroy
       head :no_content
-      render json: {}
     end
   
     private
+
+    def not_found
+      render json: {error: "Record not found"}
+    end
   
     def set_petition
       @petition = Petition.find(params[:id])
