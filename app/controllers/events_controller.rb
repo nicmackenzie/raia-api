@@ -78,7 +78,6 @@ class EventsController < ApplicationController
     def destroy
       @event.destroy
       head :no_content
-      render json: {}
     end
   
     private
