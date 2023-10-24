@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_23_081511) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_24_093921) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -168,6 +168,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_081511) do
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
 
+  create_table "user_titles", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.string "title"
+    t.index ["user_id"], name: "index_user_titles_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "full_name"
@@ -191,6 +198,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_081511) do
     t.datetime "updated_at", null: false
     t.string "user_uid"
     t.string "username"
+    t.string "title_description"
+    t.string "member_type"
   end
 
   add_foreign_key "discussion_replies", "discussions"
@@ -216,4 +225,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_081511) do
   add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "tickets", "users"
   add_foreign_key "tickets", "users", column: "assigned_leader_id"
+  add_foreign_key "user_titles", "users"
 end
