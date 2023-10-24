@@ -4,14 +4,18 @@ Rails.application.routes.draw do
   post '/certificate-upload', to: 'leader_uploads#create'
   get '/me', to:'sessions#me'
   patch '/session/set_uid/:id', to:'sessions#set_uid'
-
-
-  resources :users, only: [:index]
-
+  
+  
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :reviews, only: [:index, :show,:create,:destroy]
-  resources :messages, only: [:show,:create,:destroy]
+  resources :notifications, only: [:index,:update,:destroy]
+  resources :reviews, only: [:index,:show,:create,:destroy] do
+    collection do
+      get 'leader', to: 'reviews#by_leader'
+    end
+  end
+
+  resources :messages, only: [:index, :show, :create, :destroy]
   resources :discussion_replies,only: [:index,:create]
   resources :discussions,only: [:index,:create,:destroy]
 
@@ -40,7 +44,14 @@ Rails.application.routes.draw do
   # Routes for NewsAndUpdates
   resources :news_and_updates
   # Routes for Events
-  resources :events
+  resources :events do 
+    collection do
+      get 'by_range', to: 'events#by_range'
+      get ':id/attendees', to: 'event_attendees#attendees'
+      post ':id/attend', to: 'event_attendees#create'
+      post ':id/enquiry', to: 'events#enquire'
+    end
+  end
   # Routes for Tickets
   resources :tickets
 

@@ -6,7 +6,8 @@ class Message < ApplicationRecord
 
     def sender_and_receiver_not_the_same
         if sender_id == receiver_id
-            error.add(:base,"Sender and receiver cannot be the same")
+            errors.add(:base,"Sender and receiver cannot be the same")
         end
     end
+    
 end
