@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   resources :messages, only: [:index, :show, :create, :destroy]
   resources :discussion_replies,only: [:index,:create]
-  resources :discussions,only: [:index,:create,:destroy]
+  resources :discussions,only: [:index,:show,:create,:destroy]
 
   resource :session, only: [:create, :destroy]
 

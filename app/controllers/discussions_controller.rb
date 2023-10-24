@@ -6,6 +6,10 @@ class DiscussionsController < ApplicationController
         discussions = Discussion.where(is_deleted:false)
         render json: discussions
     end
+    def show
+        discussion = find_discussion(params[:id])
+        render json: discussion
+    end
     def create
         discussion = Discussion.create(title:discussion_params[:title],content:discussion_params[:content],user_id:discussion_params[:user_id],is_deleted:false)
         render json: discussion, status: :created
