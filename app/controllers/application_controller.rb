@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   rescue_from StandardError, with: :handle_uncaught_error
-  # before_action :authenticate_user
+  before_action :authenticate_user
 
 
   def route_not_found
