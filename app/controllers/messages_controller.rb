@@ -10,7 +10,19 @@ class MessagesController < ApplicationController
       messages = Message.all
       render json: messages, status: :ok
     end
+    
+    def mySentMessages
+      user_id = params[:user_id]
+      messages = Message.where(sender_id: user_id)
+      render json: messages, status: :ok
+    end
   
+    def myReceivedMessages
+      user_id = params[:user_id]
+      messages = Message.where(receiver_id: user_id)
+      render json: messages, status: :ok
+    end
+
     # Show a specific message
     def show
       render json: @message, status: :ok

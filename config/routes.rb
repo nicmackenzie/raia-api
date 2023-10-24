@@ -12,7 +12,12 @@ Rails.application.routes.draw do
   # root "articles#index"
   resources :reviews, only: [:index,:show,:create,:destroy]
 
-  resources :messages, only: [:index, :show, :create, :destroy]
+  resources :messages do
+    collection do
+      get 'my_sent_messages/:user_id', to: 'messages#mySentMessages', as: :my_sent_messages
+      get 'my_received_messages/:user_id', to: 'messages#myReceivedMessages', as: :my_received_messages
+    end
+  end
 
   resources :discussion_replies,only: [:index,:create]
   resources :discussions,only: [:index,:create,:destroy]
