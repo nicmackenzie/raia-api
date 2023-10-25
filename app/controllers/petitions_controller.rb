@@ -5,7 +5,7 @@ class PetitionsController < ApplicationController
   
     def index
       petitions = Petition.all
-      render json: petitions
+      render json: petitions,each_serializer: PetitionSerializer
     end
   
     def show
@@ -46,7 +46,7 @@ class PetitionsController < ApplicationController
     end
   
     def petition_params
-      params.require(:petition).permit(:title, :description, :user_id)
+      params.permit(:title, :description, :petition_poster,:target_signature,:topic).merge(user_id: @current_user.id)
     end
 end
   

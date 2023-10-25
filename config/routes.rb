@@ -40,7 +40,11 @@ Rails.application.routes.draw do
   resources :counties
 
   # Routes for Petitions
-  resources :petitions
+  resources :petitions do
+    collection do
+      post ':id/sign', to: 'petition_signatures#create'
+    end
+  end
   # Routes for NewsAndUpdates
   resources :news_and_updates
   # Routes for Events
