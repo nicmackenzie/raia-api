@@ -32,13 +32,16 @@ class TicketsController < ApplicationController
     def destroy
       @ticket.destroy
       head :no_content
-      render json: {}
     end
   
     private
   
     def set_ticket
       @ticket = Ticket.find(params[:id])
+    end
+
+    def not_found
+      render json: {error: "Record not found"}
     end
   
     def ticket_params

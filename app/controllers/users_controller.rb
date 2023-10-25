@@ -57,6 +57,28 @@ class UsersController < ApplicationController
     render json: @leaders
   end
   
+
+def follow
+  user_to_follow = User.find(params[:id])
+  unless current_user.following.include?(user_to_follow)
+    current_user.following << user_to_follow
+    render json: { message: "Now following #{user_to_follow.full_name}" }
+  else
+    render json: { error: "You are already following #{user_to_follow.full_name}" }, status: :unprocessable_entity
+  end
+end
+
+# Allows a user to unfollow another user
+def unfollow
+  user_to_unfollow = User.find(params[:id])
+  if current_user.following.include?(user_to_unfollow)
+    current_user.following.delete(user_to_unfollow)
+    render json: { message: "Unfollowed #{user_to_unfollow.full_name}" }
+  else
+    render json: { error: "You are not following #{user_to_unfollow.full_name}" }, status: :unprocessable_entity
+  end
+end
+
   private
 
    

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_23_195741) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -54,11 +54,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_195741) do
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.date "date"
+    t.datetime "date"
     t.integer "county_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "location"
+    t.string "poster_url"
     t.index ["county_id"], name: "index_events_on_county_id"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
@@ -94,6 +96,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_195741) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.integer "sender_id", null: false
+    t.integer "receiver_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "news_and_update_comments", force: :cascade do |t|
     t.text "content"
@@ -118,12 +127,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_195741) do
     t.index ["user_id"], name: "index_news_and_updates_on_user_id"
   end
 
+  create_table "petition_signatures", force: :cascade do |t|
+    t.integer "petition_id", null: false
+    t.integer "user_id", null: false
+    t.text "reason_for_signing"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["petition_id"], name: "index_petition_signatures_on_petition_id"
+    t.index ["user_id"], name: "index_petition_signatures_on_user_id"
+  end
+
   create_table "petitions", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "petition_poster"
+    t.string "target_signature"
+    t.string "topic"
     t.index ["user_id"], name: "index_petitions_on_user_id"
   end
 
@@ -190,6 +212,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_195741) do
   add_foreign_key "news_and_update_comments", "users"
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
+  add_foreign_key "petition_signatures", "petitions"
+  add_foreign_key "petition_signatures", "users"
   add_foreign_key "petitions", "users"
   add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "tickets", "users"
