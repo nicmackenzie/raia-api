@@ -9,10 +9,14 @@ class User < ApplicationRecord
   has_many :messages_sent, class_name: 'Message', foreign_key: 'sender_id'
   has_many :messages_received, class_name: 'Message', foreign_key: 'receiver_id'
   belongs_to :county, optional: true
-  has_many :interests
+  has_many :interests, dependent: :destroy
+  has_many :user_titles, dependent: :destroy
   has_many :leader_uploads
+  has_many :events
+  has_many :event_attendees
+  has_many :event_enquiries
     
-  # Following functionality
+  # # Following functionality
   has_many :active_relationships, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
   has_many :passive_relationships, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed

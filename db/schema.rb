@@ -38,6 +38,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
     t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
+  create_table "event_attendees", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["event_id"], name: "index_event_attendees_on_event_id"
+    t.index ["user_id"], name: "index_event_attendees_on_user_id"
+  end
+
+  create_table "event_enquiries", force: :cascade do |t|
+    t.text "message"
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["event_id"], name: "index_event_enquiries_on_event_id"
+    t.index ["user_id"], name: "index_event_enquiries_on_user_id"
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -107,6 +124,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
     t.index ["user_id"], name: "index_news_and_updates_on_user_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "user_from_id"
+    t.integer "user_to_id", null: false
+    t.string "message"
+    t.string "status", default: "unread"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.string "redirect_url"
+    t.string "notification_type"
+    t.index ["user_from_id"], name: "index_notifications_on_user_from_id"
+    t.index ["user_to_id"], name: "index_notifications_on_user_to_id"
+  end
+
   create_table "petition_signatures", force: :cascade do |t|
     t.integer "petition_id", null: false
     t.integer "user_id", null: false
@@ -152,6 +181,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
 
+  create_table "user_titles", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.string "title"
+    t.index ["user_id"], name: "index_user_titles_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "full_name"
@@ -175,11 +211,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
     t.datetime "updated_at", null: false
     t.string "user_uid"
     t.string "username"
+    t.string "title_description"
+    t.string "member_type"
   end
 
   add_foreign_key "discussion_replies", "discussions"
   add_foreign_key "discussion_replies", "users"
   add_foreign_key "discussions", "users"
+  add_foreign_key "event_attendees", "events"
+  add_foreign_key "event_attendees", "users"
+  add_foreign_key "event_enquiries", "events"
+  add_foreign_key "event_enquiries", "users"
   add_foreign_key "events", "counties"
   add_foreign_key "events", "users"
   add_foreign_key "follows", "followeds"
@@ -190,10 +232,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
   add_foreign_key "news_and_update_comments", "users"
   add_foreign_key "news_and_updates", "counties"
   add_foreign_key "news_and_updates", "users"
+  add_foreign_key "notifications", "users", column: "user_from_id"
+  add_foreign_key "notifications", "users", column: "user_to_id"
   add_foreign_key "petition_signatures", "petitions"
   add_foreign_key "petition_signatures", "users"
   add_foreign_key "petitions", "users"
   add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "tickets", "users"
   add_foreign_key "tickets", "users", column: "assigned_leader_id"
+  add_foreign_key "user_titles", "users"
 end

@@ -40,10 +40,23 @@ class UsersController < ApplicationController
   end
   
   def update
-    if @user.update(user_params)
-      render json: @user, status: :ok
-    else
-      render json: @user.errors, status: :unprocessable_entity
+    begin
+      ActiveRecord::Base.transaction do
+        @user.interests.destroy_all
+        @user.user_titles.destroy_all
+  
+        interests = params[:interests].map { |interest| { name: interest,user_id: @user.id } }
+        titles = params[:titles].map { |title| { title: title,user_id: @user.id } }
+        
+        @user.interests.create(interests)
+        @user.user_titles.create(titles)
+  
+        if @user.update(user_params)
+          render json: @user, status: :ok
+        else
+          raise ActiveRecord::Rollback
+        end
+      end
     end
   end
 
@@ -99,7 +112,7 @@ end
   end
   
   def user_params
-    params.require(:user).permit(:email, :full_name, :national_id, :gender, :date_of_birth, :occupation, :interests, :contact, :location, :county_id, :ward, :role, :elected_position, :profile_image, :verified, :active, :is_deleted,:user_uid,:username)
+    params.require(:user).permit(:email, :full_name, :national_id, :gender, :date_of_birth, :occupation, :title_description, :contact, :location, :county_id, :ward, :role, :elected_position, :profile_image, :verified, :active, :is_deleted,:user_uid,:username,:member_type)
   end
 
   def check_parameter_existence
