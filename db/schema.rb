@@ -144,7 +144,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "petition_poster"
-    t.string "target_signature"
+    t.integer "target_signature"
     t.string "topic"
     t.index ["user_id"], name: "index_petitions_on_user_id"
   end
