@@ -53,6 +53,8 @@ Rails.application.routes.draw do
   end
   # Routes for NewsAndUpdates
   resources :news_and_updates
+  # Routes for NewsAndUpdatesComments
+  resources :news_and_update_comments
   # Routes for Events
   resources :events do 
     collection do
