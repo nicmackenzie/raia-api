@@ -17,7 +17,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :messages, only: [:index, :show, :create, :destroy]
+  resources :messages do
+    collection do
+      get 'my_sent_messages/:user_id', to: 'messages#mySentMessages', as: :my_sent_messages
+      get 'my_received_messages/:user_id', to: 'messages#myReceivedMessages', as: :my_received_messages
+    end
+  end
+
   
   resources :discussions,only: [:index,:show,:create,:destroy] do
     resources :discussion_replies,only: [:index,:create]
@@ -44,9 +50,15 @@ Rails.application.routes.draw do
   resources :counties
 
   # Routes for Petitions
-  resources :petitions
+  resources :petitions do
+    collection do
+      post ':id/sign', to: 'petition_signatures#create'
+    end
+  end
   # Routes for NewsAndUpdates
   resources :news_and_updates
+  # Routes for NewsAndUpdatesComments
+  resources :news_and_update_comments
   # Routes for Events
   resources :events do 
     collection do
