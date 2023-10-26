@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # action cable server
+  mount ActionCable.server => '/cable'
   # Custom route for user registration
   post '/signup', to: 'users#create'
   post '/certificate-upload', to: 'leader_uploads#create'
@@ -16,8 +18,10 @@ Rails.application.routes.draw do
   end
 
   resources :messages, only: [:index, :show, :create, :destroy]
-  resources :discussion_replies,only: [:index,:create]
-  resources :discussions,only: [:index,:show,:create,:destroy]
+  
+  resources :discussions,only: [:index,:show,:create,:destroy] do
+    resources :discussion_replies,only: [:index,:create]
+  end
 
   resource :session, only: [:create, :destroy]
 
