@@ -6,8 +6,12 @@ class DiscussionsController < ApplicationController
         discussions = Discussion.where(is_deleted:false)
         render json: discussions
     end
+    def show
+        discussion = find_discussion(params[:id])
+        render json: discussion
+    end
     def create
-        discussion = Discussion.create(title:discussion_params[:title],content:discussion_params[:content],user_id:discussion_params[:user_id],is_deleted:false)
+        discussion = Discussion.create(discussion_params)
         render json: discussion, status: :created
     end
     def destroy
@@ -18,8 +22,18 @@ class DiscussionsController < ApplicationController
 
     private
     def discussion_params
-        params.permit(:id,:title,:content,:user_id,:is_deleted)
-    end
+        # params.require(:event).permit(:name, :description, :date, :county_id, :user_id)
+        # event_datetime = DateTime.strptime(params[:time], "%I:%M%p")
+        # date = Date.strptime(params[:date], '%Y-%m-%d')
+        # time = DateTime.strptime(params[:time], '%I:%M%p')
+  
+        # combined_datetime = DateTime.new(date.year, date.month, date.day, time.hour, time.min, 0)
+        params.permit(:id,:title,:content,:discussion_resources,:topic, :date).merge(user_id: @current_user.id, is_deleted: false)
+      end
+  
+    # def discussion_params
+    #     params.permit(:id,:title,:content,:user_id,:is_deleted)
+    # end
     def render_record_invalid(invalid)
         render json: {errors:[invalid.record.errors.full_messages]},status: :unprocessable_entity
     end

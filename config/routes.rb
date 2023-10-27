@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # action cable server
+  mount ActionCable.server => '/cable'
   # Custom route for user registration
   post '/signup', to: 'users#create'
   post '/certificate-upload', to: 'leader_uploads#create'
@@ -15,9 +17,17 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :messages, only: [:index, :show, :create, :destroy]
-  resources :discussion_replies,only: [:index,:create]
-  resources :discussions,only: [:index,:create,:destroy]
+  resources :messages do
+    collection do
+      get 'my_sent_messages/:user_id', to: 'messages#mySentMessages', as: :my_sent_messages
+      get 'my_received_messages/:user_id', to: 'messages#myReceivedMessages', as: :my_received_messages
+    end
+  end
+
+  
+  resources :discussions,only: [:index,:show,:create,:destroy] do
+    resources :discussion_replies,only: [:index,:create]
+  end
 
   resource :session, only: [:create, :destroy]
 
@@ -47,6 +57,8 @@ Rails.application.routes.draw do
   end
   # Routes for NewsAndUpdates
   resources :news_and_updates
+  # Routes for NewsAndUpdatesComments
+  resources :news_and_update_comments
   # Routes for Events
   resources :events do 
     collection do

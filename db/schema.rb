@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_26_082914) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -35,6 +35,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
     t.boolean "is_deleted"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "discussion_resources"
+    t.datetime "date"
+    t.string "topic"
     t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
