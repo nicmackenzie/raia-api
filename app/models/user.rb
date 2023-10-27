@@ -9,7 +9,8 @@ class User < ApplicationRecord
   has_many :messages_sent, class_name: 'Message', foreign_key: 'sender_id'
   has_many :messages_received, class_name: 'Message', foreign_key: 'receiver_id'
   belongs_to :county, optional: true
-  has_many :interests
+  has_many :interests, dependent: :destroy
+  has_many :user_titles, dependent: :destroy
   has_many :leader_uploads
   has_many :events
   has_many :event_attendees
