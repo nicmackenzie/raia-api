@@ -28,7 +28,7 @@ class DiscussionsController < ApplicationController
         # time = DateTime.strptime(params[:time], '%I:%M%p')
   
         # combined_datetime = DateTime.new(date.year, date.month, date.day, time.hour, time.min, 0)
-        params.permit(:id,:title,:content,:discussion_resources,:topic, :date).merge(user_id: @current_user.id, is_deleted: false)
+        params.permit(:id,:title,:content,:discussion_resources,:topic, :date,:end_datetime).merge(user_id: @current_user.id, is_deleted: false)
       end
   
     # def discussion_params

@@ -10,11 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_26_082914) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_31_080522) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "discussion_chats", force: :cascade do |t|
+    t.integer "discussion_id", null: false
+    t.integer "user_id", null: false
+    t.text "message"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["discussion_id"], name: "index_discussion_chats_on_discussion_id"
+    t.index ["user_id"], name: "index_discussion_chats_on_user_id"
   end
 
   create_table "discussion_replies", force: :cascade do |t|
@@ -38,6 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_082914) do
     t.string "discussion_resources"
     t.datetime "date"
     t.string "topic"
+    t.datetime "end_datetime"
     t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
@@ -218,6 +228,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_082914) do
     t.string "member_type"
   end
 
+  add_foreign_key "discussion_chats", "discussions"
+  add_foreign_key "discussion_chats", "users"
   add_foreign_key "discussion_replies", "discussions"
   add_foreign_key "discussion_replies", "users"
   add_foreign_key "discussions", "users"

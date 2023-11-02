@@ -19,3 +19,5 @@ if County.all.length == 0
     { name: 'Kisii' },{ name: 'Nyamira' },{ name: 'Nairobi' }])
     puts "Counties seeded!"
 end
+
+DiscussionChat.destroy_all
