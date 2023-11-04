@@ -96,13 +96,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-  create_table "messages", force: :cascade do |t|
-    t.text "content"
-    t.integer "sender_id", null: false
-    t.integer "receiver_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "news_and_update_comments", force: :cascade do |t|
     t.text "content"
