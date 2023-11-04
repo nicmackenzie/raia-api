@@ -4,10 +4,11 @@ Rails.application.routes.draw do
   post '/certificate-upload', to: 'leader_uploads#create'
   get '/me', to:'sessions#me'
   patch '/session/set_uid/:id', to:'sessions#set_uid'
-
-
+  
+  
   # Defines the root path route ("/")
   # root "articles#index"
+  resources :notifications, only: [:index,:update,:destroy]
   resources :reviews, only: [:index,:show,:create,:destroy] do
     collection do
       get 'leader', to: 'reviews#by_leader'
@@ -46,13 +47,22 @@ Rails.application.routes.draw do
   resources :counties
 
   # Routes for Petitions
-  resources :petitions
+  resources :petitions do
+    collection do
+      post ':id/sign', to: 'petition_signatures#create'
+    end
+  end
   # Routes for NewsAndUpdates
   resources :news_and_updates
+  # Routes for NewsAndUpdatesComments
+  resources :news_and_update_comments
   # Routes for Events
   resources :events do 
     collection do
       get 'by_range', to: 'events#by_range'
+      get ':id/attendees', to: 'event_attendees#attendees'
+      post ':id/attend', to: 'event_attendees#create'
+      post ':id/enquiry', to: 'events#enquire'
     end
   end
   # Routes for Tickets
