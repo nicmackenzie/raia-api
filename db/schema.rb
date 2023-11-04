@@ -35,7 +35,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
     t.boolean "is_deleted"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "discussion_resources"
     t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
@@ -219,6 +218,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
   add_foreign_key "discussion_replies", "discussions"
   add_foreign_key "discussion_replies", "users"
   add_foreign_key "discussions", "users"
+  add_foreign_key "event_attendees", "events"
+  add_foreign_key "event_attendees", "users"
+  add_foreign_key "event_enquiries", "events"
+  add_foreign_key "event_enquiries", "users"
   add_foreign_key "events", "counties"
   add_foreign_key "events", "users"
   add_foreign_key "follows", "followeds"
