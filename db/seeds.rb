@@ -22,6 +22,10 @@ puts "Seeding database..."
 # detail4 = EventDetail.create(user_id:1,event_id:3,is_attending:true)
 # detail5 = EventDetail.create(user_id:1,event_id:4,is_attending:true)
 # detail6 = EventDetail.create(user_id:1,event_id:4,is_attending:true)
+discussion_poll1 = DiscussionPoll.create(user_id:1,discussion_id:1,votes:0,title:"elnino rains")
+discussion_poll2 = DiscussionPoll.create(user_id:2,discussion_id:2,votes:0,title:"water shortage")
+discussion_poll3 = DiscussionPoll.create(user_id:2,discussion_id:1,votes:0,title:"climate change")
+
 puts "Done seeding"
 # review1 = Review.create(content:"could do better in terms of engagement with citizens",rating:3.5,user_id:2)
 # review1 = Review.create(content:"Really seen a significant improvement",rating:4.5,user_id:3)

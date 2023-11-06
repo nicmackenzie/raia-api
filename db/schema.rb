@@ -10,11 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_05_111437) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "discussion_polls", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "discussion_id", null: false
+    t.integer "votes"
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discussion_id"], name: "index_discussion_polls_on_discussion_id"
+    t.index ["user_id"], name: "index_discussion_polls_on_user_id"
   end
 
   create_table "discussion_replies", force: :cascade do |t|
@@ -35,6 +46,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
     t.boolean "is_deleted"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "discussion_resources"
     t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
@@ -44,6 +56,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["event_id"], name: "index_event_attendees_on_event_id"
     t.index ["user_id"], name: "index_event_attendees_on_user_id"
+  end
+
+  create_table "event_details", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
+    t.text "inquiry"
+    t.string "inquiry_reply"
+    t.boolean "is_attending"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_details_on_event_id"
+    t.index ["user_id"], name: "index_event_details_on_user_id"
   end
 
   create_table "event_enquiries", force: :cascade do |t|
@@ -215,11 +239,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_24_121331) do
     t.string "member_type"
   end
 
+  add_foreign_key "discussion_polls", "discussions"
+  add_foreign_key "discussion_polls", "users"
   add_foreign_key "discussion_replies", "discussions"
   add_foreign_key "discussion_replies", "users"
   add_foreign_key "discussions", "users"
   add_foreign_key "event_attendees", "events"
   add_foreign_key "event_attendees", "users"
+  add_foreign_key "event_details", "events"
+  add_foreign_key "event_details", "users"
   add_foreign_key "event_enquiries", "events"
   add_foreign_key "event_enquiries", "users"
   add_foreign_key "events", "counties"
