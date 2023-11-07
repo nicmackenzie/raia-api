@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_31_080522) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_07_080608) do
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -171,6 +171,39 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_31_080522) do
     t.index ["user_id"], name: "index_petitions_on_user_id"
   end
 
+  create_table "points", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "points"
+    t.string "point_type"
+    t.string "description"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["user_id"], name: "index_points_on_user_id"
+  end
+
+  create_table "poll_options", force: :cascade do |t|
+    t.integer "poll_id", null: false
+    t.string "option"
+    t.index ["poll_id"], name: "index_poll_options_on_poll_id"
+  end
+
+  create_table "poll_votes", force: :cascade do |t|
+    t.integer "poll_id", null: false
+    t.integer "user_id", null: false
+    t.integer "poll_option_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["poll_id"], name: "index_poll_votes_on_poll_id"
+    t.index ["poll_option_id"], name: "index_poll_votes_on_poll_option_id"
+    t.index ["user_id"], name: "index_poll_votes_on_user_id"
+  end
+
+  create_table "polls", force: :cascade do |t|
+    t.string "question"
+    t.datetime "end_date"
+    t.integer "user_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["user_id"], name: "index_polls_on_user_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.text "content"
     t.decimal "rating"
@@ -252,6 +285,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_31_080522) do
   add_foreign_key "petition_signatures", "petitions"
   add_foreign_key "petition_signatures", "users"
   add_foreign_key "petitions", "users"
+  add_foreign_key "points", "users"
+  add_foreign_key "poll_options", "polls"
+  add_foreign_key "poll_votes", "poll_options"
+  add_foreign_key "poll_votes", "polls"
+  add_foreign_key "poll_votes", "users"
+  add_foreign_key "polls", "users"
   add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "tickets", "users"
   add_foreign_key "tickets", "users", column: "assigned_leader_id"

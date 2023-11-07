@@ -20,4 +20,4 @@ if County.all.length == 0
     puts "Counties seeded!"
 end
 
-DiscussionChat.destroy_all
+PollVote.destroy_all

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+ 
     # action cable server
   mount ActionCable.server => '/cable'
   # Custom route for user registration
@@ -74,6 +75,12 @@ Rails.application.routes.draw do
   end
   # Routes for Tickets
   resources :tickets
+
+  resources :polls do
+    collection do
+      post ':id/vote', to: 'poll_votes#create'
+    end
+  end
 
   match '*unmatched', to: 'application#route_not_found', via: :all
 end
