@@ -66,6 +66,8 @@ Rails.application.routes.draw do
   end
   # Routes for Tickets
   resources :tickets
+  # Routes for resources
+  resources :resources
 
   match '*unmatched', to: 'application#route_not_found', via: :all
 end
