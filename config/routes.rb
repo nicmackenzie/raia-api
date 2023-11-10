@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
  
     # action cable server
   mount ActionCable.server => '/cable'
@@ -81,6 +82,8 @@ Rails.application.routes.draw do
       post ':id/vote', to: 'poll_votes#create'
     end
   end
+
+  resources :conversations, only: [:create,:show,:index]
 
   match '*unmatched', to: 'application#route_not_found', via: :all
 end

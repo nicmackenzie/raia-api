@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_07_080608) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_08_134154) do
+  create_table "conversations", force: :cascade do |t|
+    t.integer "user_1"
+    t.integer "user_2"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+  end
+
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -109,9 +115,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_07_080608) do
   create_table "messages", force: :cascade do |t|
     t.text "content"
     t.integer "sender_id", null: false
-    t.integer "receiver_id", null: false
+    t.integer "receiver_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "conversation_id"
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
   create_table "news_and_update_comments", force: :cascade do |t|
@@ -276,6 +284,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_07_080608) do
   add_foreign_key "follows", "followers"
   add_foreign_key "interests", "users"
   add_foreign_key "leader_uploads", "users"
+  add_foreign_key "messages", "conversations"
   add_foreign_key "news_and_update_comments", "news_and_updates"
   add_foreign_key "news_and_update_comments", "users"
   add_foreign_key "news_and_updates", "counties"

@@ -25,25 +25,32 @@ class MessagesController < ApplicationController
 
     # Show a specific message
     def show
-      render json: @message, status: :ok
+      @messages = Message.where(conversation_id: params[:id])
+      render json: @messages, status: :ok
     end
   
     # Create a new message
     def create
         # sender should be the current user
         # sender = User.find_by(username: message_params[:sender])
-        receiver = User.find_by(email: message_params[:receiver])
+        # receiver = User.find_by(email: message_params[:receiver])
         
-        if receiver
-          @message = Message.new(sender_id: message_params[:sender_id], receiver_id: receiver.id, content: message_params[:content])
+        # if receiver
+        #   @message = Message.new(sender_id: message_params[:sender_id], receiver_id: receiver.id, content: message_params[:content])
           
-          if @message.save
-            render json: @message, status: :created
-          else
-            render json: @message.errors, status: :unprocessable_entity
-          end
+        #   if @message.save
+        #     render json: @message, status: :created
+        #   else
+        #     render json: @message.errors, status: :unprocessable_entity
+        #   end
+        # else
+        #   render json: { error: "Invalid receiver" }, status: :bad_request
+        # end
+        @message = Message.new(message_params)
+        if @message.save
+          render json: @message, status: :created
         else
-          render json: { error: "Invalid receiver" }, status: :bad_request
+          render json: @message.errors, status: :unprocessable_entity
         end
     end
       
@@ -57,9 +64,13 @@ class MessagesController < ApplicationController
     private
     
     # Use strong parameters to allow specific data through
+    # def message_params
+    #     params.permit(:sender_id, :receiver, :content)
+    # end
     def message_params
-        params.permit(:sender_id, :receiver, :content)
+      params.permit(:sender_id, :content, :conversation_id,:sender_id)
     end
+
 
     # Handle RecordInvalid errors
     def render_record_invalid(exception)

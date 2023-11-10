@@ -6,8 +6,8 @@ class User < ApplicationRecord
   has_many :discussion_replies
   has_many :discussions
   has_many :reviews
-  has_many :messages_sent, class_name: 'Message', foreign_key: 'sender_id'
-  has_many :messages_received, class_name: 'Message', foreign_key: 'receiver_id'
+  # has_many :messages_sent, class_name: 'Message', foreign_key: 'sender_id'
+  # has_many :messages_received, class_name: 'Message', foreign_key: 'receiver_id'
   belongs_to :county, optional: true
   has_many :interests, dependent: :destroy
   has_many :user_titles, dependent: :destroy
@@ -21,6 +21,10 @@ class User < ApplicationRecord
   has_many :passive_relationships, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower  
+
+  has_many :conversations_1, class_name: 'Conversation', foreign_key: 'user_1'
+  has_many :conversations_2, class_name: 'Conversation', foreign_key: 'user_2'
+  has_many :messages
     
   # Scopes
   scope :top_influencers, -> { order(points: :desc).limit(5) }    
