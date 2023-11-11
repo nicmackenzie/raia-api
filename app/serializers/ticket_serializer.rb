@@ -1,3 +1,4 @@
 class TicketSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :status, :user_id, :assigned_leader_id
+  attributes :id, :title, :description, :status, :assigned_leader_id, :ticket_no,:category, :created_at
+  belongs_to :assigned_leader_id, serializer: ReviewUserSerializer
 end

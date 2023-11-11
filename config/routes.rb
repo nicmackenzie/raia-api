@@ -75,7 +75,11 @@ Rails.application.routes.draw do
     end
   end
   # Routes for Tickets
-  resources :tickets
+  resources :tickets do
+    collection do
+      get ':user/user', to: 'tickets#by_user'
+    end
+  end
 
   resources :polls do
     collection do

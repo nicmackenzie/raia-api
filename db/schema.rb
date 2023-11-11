@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_08_134154) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_10_184435) do
   create_table "conversations", force: :cascade do |t|
     t.integer "user_1"
     t.integer "user_2"
@@ -223,6 +223,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_08_134154) do
     t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
+  create_table "ticket_replies", force: :cascade do |t|
+    t.integer "ticket_id", null: false
+    t.integer "user_id", null: false
+    t.text "comment", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["ticket_id"], name: "index_ticket_replies_on_ticket_id"
+    t.index ["user_id"], name: "index_ticket_replies_on_user_id"
+  end
+
   create_table "tickets", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -231,6 +240,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_08_134154) do
     t.integer "assigned_leader_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "category"
+    t.string "priority", default: "medium"
+    t.string "ticket_no"
     t.index ["assigned_leader_id"], name: "index_tickets_on_assigned_leader_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
@@ -301,6 +313,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_08_134154) do
   add_foreign_key "poll_votes", "users"
   add_foreign_key "polls", "users"
   add_foreign_key "reviews", "users", column: "reviewer_id"
+  add_foreign_key "ticket_replies", "tickets"
+  add_foreign_key "ticket_replies", "users"
   add_foreign_key "tickets", "users"
   add_foreign_key "tickets", "users", column: "assigned_leader_id"
   add_foreign_key "user_titles", "users"

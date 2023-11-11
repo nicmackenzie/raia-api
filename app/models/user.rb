@@ -25,6 +25,10 @@ class User < ApplicationRecord
   has_many :conversations_1, class_name: 'Conversation', foreign_key: 'user_1'
   has_many :conversations_2, class_name: 'Conversation', foreign_key: 'user_2'
   has_many :messages
+
+  has_many :tickets_1, class_name: 'Ticket', foreign_key: 'user_id'
+  has_many :tickets_2, class_name: 'Ticket', foreign_key: 'assigned_leader_id'
+  has_many :tickets
     
   # Scopes
   scope :top_influencers, -> { order(points: :desc).limit(5) }    
