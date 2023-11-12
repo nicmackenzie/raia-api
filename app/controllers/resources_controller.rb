@@ -1,4 +1,5 @@
 class ResourcesController < ApplicationController
+  skip_before_action :authenticate_user, except: [:destroy]
     before_action :set_resource, only: [:show, :update, :destroy]
   
     # GET /resources

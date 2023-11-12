@@ -1,4 +1,5 @@
 class TicketsController < ApplicationController
+  skip_before_action :authenticate_user, except: [:destroy]
     before_action :set_ticket, only: [:show, :edit, :update, :destroy]
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
   

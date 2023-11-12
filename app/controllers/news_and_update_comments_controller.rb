@@ -1,4 +1,5 @@
 class NewsAndUpdateCommentsController < ApplicationController
+  skip_before_action :authenticate_user, except: [:destroy]
     before_action :set_news_and_update_comment, only: [:show, :edit, :update, :destroy]
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
   
