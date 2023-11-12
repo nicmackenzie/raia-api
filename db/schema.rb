@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_07_080608) do
+
+ActiveRecord::Schema[7.0].define(version: 2023_11_07_091811) do
+
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -171,6 +173,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_07_080608) do
     t.index ["user_id"], name: "index_petitions_on_user_id"
   end
 
+  create_table "resources", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+  
   create_table "points", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "points"

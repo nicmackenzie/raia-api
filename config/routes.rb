@@ -75,6 +75,8 @@ Rails.application.routes.draw do
   end
   # Routes for Tickets
   resources :tickets
+  # Routes for resources
+  resources :resources
 
   resources :polls do
     collection do
