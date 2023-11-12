@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+ 
+    # action cable server
+  mount ActionCable.server => '/cable'
   # Custom route for user registration
   post '/signup', to: 'users#create'
   post '/certificate-upload', to: 'leader_uploads#create'
@@ -22,8 +25,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :discussion_replies,only: [:index,:create]
-  resources :discussions,only: [:index,:create,:destroy]
+  
+  resources :discussions,only: [:index,:show,:create,:destroy,:update] do
+    collection do
+      get ':id/chats',to: 'discussion_chats#show'
+      post ':id/chat',to: 'discussion_chats#create'
+    end
+    resources :discussion_replies,only: [:index,:create]
+  end
 
   resource :session, only: [:create, :destroy]
 
@@ -68,6 +77,12 @@ Rails.application.routes.draw do
   resources :tickets
   # Routes for resources
   resources :resources
+
+  resources :polls do
+    collection do
+      post ':id/vote', to: 'poll_votes#create'
+    end
+  end
 
   match '*unmatched', to: 'application#route_not_found', via: :all
 end

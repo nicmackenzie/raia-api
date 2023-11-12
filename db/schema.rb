@@ -10,11 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema[7.0].define(version: 2023_11_07_091811) do
+
   create_table "counties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "discussion_chats", force: :cascade do |t|
+    t.integer "discussion_id", null: false
+    t.integer "user_id", null: false
+    t.text "message"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["discussion_id"], name: "index_discussion_chats_on_discussion_id"
+    t.index ["user_id"], name: "index_discussion_chats_on_user_id"
   end
 
   create_table "discussion_replies", force: :cascade do |t|
@@ -35,6 +46,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_07_091811) do
     t.boolean "is_deleted"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "discussion_resources"
+    t.datetime "date"
+    t.string "topic"
+    t.datetime "end_datetime"
     t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
@@ -165,6 +180,39 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_07_091811) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+  
+  create_table "points", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "points"
+    t.string "point_type"
+    t.string "description"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["user_id"], name: "index_points_on_user_id"
+  end
+
+  create_table "poll_options", force: :cascade do |t|
+    t.integer "poll_id", null: false
+    t.string "option"
+    t.index ["poll_id"], name: "index_poll_options_on_poll_id"
+  end
+
+  create_table "poll_votes", force: :cascade do |t|
+    t.integer "poll_id", null: false
+    t.integer "user_id", null: false
+    t.integer "poll_option_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["poll_id"], name: "index_poll_votes_on_poll_id"
+    t.index ["poll_option_id"], name: "index_poll_votes_on_poll_option_id"
+    t.index ["user_id"], name: "index_poll_votes_on_user_id"
+  end
+
+  create_table "polls", force: :cascade do |t|
+    t.string "question"
+    t.datetime "end_date"
+    t.integer "user_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["user_id"], name: "index_polls_on_user_id"
+  end
 
   create_table "reviews", force: :cascade do |t|
     t.text "content"
@@ -223,6 +271,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_07_091811) do
     t.string "member_type"
   end
 
+  add_foreign_key "discussion_chats", "discussions"
+  add_foreign_key "discussion_chats", "users"
   add_foreign_key "discussion_replies", "discussions"
   add_foreign_key "discussion_replies", "users"
   add_foreign_key "discussions", "users"
@@ -245,6 +295,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_07_091811) do
   add_foreign_key "petition_signatures", "petitions"
   add_foreign_key "petition_signatures", "users"
   add_foreign_key "petitions", "users"
+  add_foreign_key "points", "users"
+  add_foreign_key "poll_options", "polls"
+  add_foreign_key "poll_votes", "poll_options"
+  add_foreign_key "poll_votes", "polls"
+  add_foreign_key "poll_votes", "users"
+  add_foreign_key "polls", "users"
   add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "tickets", "users"
   add_foreign_key "tickets", "users", column: "assigned_leader_id"
